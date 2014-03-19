@@ -1,6 +1,6 @@
 /*
 *
-*	Star Wars: Astromechs
+*	Graphics Engine
 *	By: Darren Kent
 *
 */
@@ -12,7 +12,14 @@
 #include "Debug.h"
 #include "Draw.h"
 
-int DEBUG_MODE = 4;
+/*	DEBUG_MODE
+*		0 = Disabled (No Console, No Debug Information)
+*		1 = GUI (Shows basic GUI Debug info)
+*		2 = Minimal (Shows non-Fatal Errors Only)
+*		3 = Medium (Shows Warnings and Basic Output)
+*		4 = Maximum (Shows All Debug Output. WARNING: Massive Output)
+*/
+int DEBUG_MODE = 0;
 
 int GetDebugMode(){
 	return DEBUG_MODE;
@@ -38,7 +45,7 @@ void DebugStartup() {
 	CreateConsole();
 
 	std::string tModeInfo[] = {		"1 = GUI (Shows basic GUI Debug info)",
-									"2 = Minimal (Shows non-Fatal Errors Only)",
+									"2 = Minimal (Shows Fatal Errors Only)",
 									"3 = Medium (Shows Warnings and Basic Output)",
 									"4 = Maximum (Shows All Output. WARNING: Massive Output)" };
 

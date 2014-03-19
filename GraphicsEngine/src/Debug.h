@@ -1,6 +1,6 @@
 /*
 *
-*	Star Wars: Astromechs
+*	Graphics Engine
 *	By: Darren Kent
 *
 */
@@ -8,14 +8,6 @@
 #define _DEBUG_
 
 #include <string>
-
-/*	DEBUG_MODE
-*		0 = Disabled (No Console, No Debug Information)
-*		1 = GUI (Shows basic GUI Debug info)
-*		2 = Minimal (Shows non-Fatal Errors Only)
-*		3 = Medium (Shows Warnings and Basic Output)
-*		4 = Maximum (Shows All Debug Output. WARNING: Massive Output)
-*/
 
 int GetDebugMode();											// Returns Debug Mode
 void SetDebugMode( int mode );								// Sets the Debug Mode
