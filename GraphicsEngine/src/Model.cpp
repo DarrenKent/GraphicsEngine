@@ -11,6 +11,7 @@
 
 //#include <iostream>
 
+#include "Debug.h"
 #include "Model.h"
 #include "Texture.h"
 
@@ -37,6 +38,7 @@ Model::Model() {
 }
 
 bool Model::LoadModel( std::string filename , GLuint texture ) {
+	DebugMessage( "Loading Model: " + filename, 3 );
 	mTexture	= texture;
 	
 	std::string		tLine;

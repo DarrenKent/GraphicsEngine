@@ -28,10 +28,6 @@ class Game : public Application {
 	protected:
 	private:
 		OrbitalCamera	*mCamera;							// The Camera
-		GLuint			mShaderProgram;
-		GLuint			mVertexShader;
-		GLuint			mFragmentShader;
-		Model*			mModel;
 };
 
 #endif // _GAME_

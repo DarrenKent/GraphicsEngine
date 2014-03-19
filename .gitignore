@@ -13,6 +13,8 @@
 *.a
 
 # Visual Studio Files
+*.opensdf
 *.sdf
+ipch/
 Debug/
 Release/
