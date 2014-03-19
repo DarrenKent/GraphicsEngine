@@ -12,6 +12,7 @@
 *.la
 *.a
 
-# Compiled Folders
+# Visual Studio Files
+*.sdf
 Debug/
 Release/
