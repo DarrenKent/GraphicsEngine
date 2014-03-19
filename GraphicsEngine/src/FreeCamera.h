@@ -1,9 +1,10 @@
 /*
 *
-*	Star Wars: Astromechs
+*	Graphics Engine
 *	By: Darren Kent
 *
 */
+
 #ifndef _FREE_CAMERA_
 #define _FREE_CAMERA_
 

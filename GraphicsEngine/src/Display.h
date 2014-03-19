@@ -1,12 +1,12 @@
 /*
 *
-*	Star Wars: Astromechs
+*	Graphics Engine
 *	By: Darren Kent
 *
 */
+
 #ifndef _DISPLAY_
 #define _DISPLAY_
-
 
 #include <Windows.h>
 #include <gl\GL.h>

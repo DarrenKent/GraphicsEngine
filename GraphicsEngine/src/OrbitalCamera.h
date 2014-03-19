@@ -1,9 +1,10 @@
 /*
 *
-*	Star Wars: Astromechs
+*	Graphics Engine
 *	By: Darren Kent
 *
 */
+
 #ifndef _ORBITAL_CAMERA_
 #define _ORBITAL_CAMERA_
 

@@ -1,9 +1,10 @@
 /*
 *
-*	Star Wars: Astromechs
+*	Graphics Engine
 *	By: Darren Kent
 *
 */
+
 #ifndef _NODE_
 #define _NODE_
 
@@ -12,6 +13,7 @@
 
 #include "Model.h"
 
+// Node Class
 class Node{
 	public:
 		Node(	std::string id );							// Empty Node

@@ -16,6 +16,7 @@
 #include "Debug.h"
 #include "Game.h"
 #include "Input.h"
+#include "TextureManager.h"
 
 float COUNT = 0;
 
@@ -43,7 +44,16 @@ void Game::Start() {
 void Game::InitializeGame() {
 	DebugMessage( "Initializing Game...", 3 );
 
-	SCENE_MGR->AddNode( "temple", "data/models/temple.obj", NULL );
+	GLuint tTexture1 = TEXTURE_MGR->LoadTexture( "chrome", "data/textures/chrome.tga", false )->GetTextureId();
+	GLuint tTexture2 = TEXTURE_MGR->LoadTexture( "magma", "data/textures/magma.tga", false )->GetTextureId();
+	GLuint tTexture3 = TEXTURE_MGR->LoadTexture( "brushed", "data/textures/brushed.tga", false )->GetTextureId();
+	GLuint tTexture4 = TEXTURE_MGR->LoadTexture( "brushed", "data/textures/brushed.tga", false )->GetTextureId();
+
+	SCENE_MGR->AddNode( "temple", "data/models/temple.obj", tTexture1 );
+	SCENE_MGR->AddNode( "temple2", "data/models/temple.obj", tTexture2 );
+	SCENE_MGR->AddNode( "temple3", "data/models/temple.obj", tTexture4 );
+	SCENE_MGR->GetNode( "temple2" )->SetPosition( 0.0f, 250.0f, 0.0f );
+	SCENE_MGR->GetNode( "temple3" )->SetPosition( 0.0f, -250.0f, 0.0f );
 }
 
 void Game::GameLogic() {}
@@ -56,13 +66,13 @@ void Game::ProcessInput() {
 
 	// Camera Controls
 	if ( GetKeyHeld( 'd' ) )
-		mCamera->RotateCamAlpha( 25.0 * tDeltaTime );
+		mCamera->RotateCamAlpha( 25.0f * tDeltaTime );
 	if ( GetKeyHeld( 'a' ) )
-		mCamera->RotateCamAlpha( -25.0 * tDeltaTime );
+		mCamera->RotateCamAlpha( -25.0f * tDeltaTime );
 	if ( GetKeyHeld( 'w' ) )
-		mCamera->RotateCamTheta( 25.0 * tDeltaTime );
+		mCamera->RotateCamTheta( 25.0f * tDeltaTime );
 	if ( GetKeyHeld( 's' ) )
-		mCamera->RotateCamTheta( -25.0 * tDeltaTime );
+		mCamera->RotateCamTheta( -25.0f * tDeltaTime );
 }
 
 void Game::DrawFrame() {

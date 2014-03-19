@@ -1,9 +1,10 @@
 /*
 *
-*	Star Wars: Astromechs
+*	Graphics Engine
 *	By: Darren Kent
 *
 */
+
 #include <time.h>
 
 #include "Debug.h"
@@ -23,30 +24,30 @@ TimeManager::TimeManager() {
 }
 
 void TimeManager::StartTime() {
-	mStartTime = clock();
+	mStartTime = (float)clock();
 }
 
 void TimeManager::TimeFrame() {
 	mFrames ++;
-	mCurrentTime	= clock() - mStartTime;
+	mCurrentTime	= (float)clock() - mStartTime;
 	mDeltaTime		= mCurrentTime - mLastTime;
 	mLastTime		= mCurrentTime;
 
 	if ( mFrames % mFrameRefreshCap == 0 ) {
-		mFramesPerSecond	= mFrameRefreshCap / ( ( mCurrentTime - mLastKeyFrame ) / 1000.0 );
+		mFramesPerSecond	= mFrameRefreshCap / ( ( mCurrentTime - mLastKeyFrame ) / 1000.0f );
 		mLastKeyFrame		= mCurrentTime;
 	}
 }
 
-double TimeManager::GetDeltaTime() {
+float TimeManager::GetDeltaTime() {
 	return mDeltaTime;
 }
 
-double TimeManager::GetDeltaTimeSeconds() {
-	return mDeltaTime / 1000.0;
+float TimeManager::GetDeltaTimeSeconds() {
+	return mDeltaTime / 1000.0f;
 }
 
-double TimeManager::GetFramesPerSecond() {
+float TimeManager::GetFramesPerSecond() {
 	return mFramesPerSecond;
 }
 

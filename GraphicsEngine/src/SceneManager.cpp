@@ -1,9 +1,10 @@
 /*
 *
-*	Star Wars: Astromechs
+*	Graphics Engine
 *	By: Darren Kent
 *
 */
+
 #include <fstream>
 #include <iostream>
 #include <math.h>
@@ -34,7 +35,7 @@ SceneManager::SceneManager( HDC hDC ) {
 void SceneManager::AddNode( std::string key, std::string filename, GLuint texture ) {
 	DebugMessage( "Adding node: " + key, 4 );
 	if ( mModels[filename] ) {
-		DebugMessage( filename + "Has already been loaded. Using previously loaded model.", 4 );
+		DebugMessage( filename + " Has already been loaded. Using previously loaded model.", 4 );
 		Node *tNode = new Node( key, mModels[filename], texture );
 		mNodes[key] = tNode;
 	} else {

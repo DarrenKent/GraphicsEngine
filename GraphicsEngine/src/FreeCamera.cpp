@@ -1,9 +1,10 @@
 /*
 *
-*	Star Wars: Astromechs
+*	Graphics Engine
 *	By: Darren Kent
 *
 */
+
 #include <Windows.h>
 #include <gl\GL.h>
 #include <gl\GLU.h>

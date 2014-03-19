@@ -1,9 +1,10 @@
 /*
 *
-*	Star Wars: Astromechs
+*	Graphics Engine
 *	By: Darren Kent
 *
 */
+
 #ifndef _SCENE_MANAGER_
 #define _SCENE_MANAGER_
 

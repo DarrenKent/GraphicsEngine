@@ -23,6 +23,7 @@
     <ClCompile Include="src\Node.cpp" />
     <ClCompile Include="src\OrbitalCamera.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\TextureManager.cpp" />
     <ClCompile Include="src\TimeManager.cpp" />
   </ItemGroup>
@@ -39,6 +40,7 @@
     <ClInclude Include="src\Node.h" />
     <ClInclude Include="src\OrbitalCamera.h" />
     <ClInclude Include="src\SceneManager.h" />
+    <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\TextureManager.h" />
     <ClInclude Include="src\TimeManager.h" />
   </ItemGroup>
