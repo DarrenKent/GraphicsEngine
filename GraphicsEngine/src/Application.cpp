@@ -1,6 +1,6 @@
 /*
 *
-*	Star Wars: Astromechs
+*	Graphics Engine
 *	By: Darren Kent
 *
 */
@@ -23,6 +23,7 @@ Application::Application() {
 }
 
 void Application::Initialize( LPCWSTR title, int width, int height, int fullscreen ) {
+	DebugMessage( "Initializing Appication...", 3 );
 	DISPLAY_MGR->SetupWindow( title, width, height, fullscreen );
 	DISPLAY_MGR->CreateNewWindow();
 	SCENE_MGR = new SceneManager( DISPLAY_MGR->GetHDC() );

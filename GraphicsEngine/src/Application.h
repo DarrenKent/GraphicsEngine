@@ -1,6 +1,6 @@
 /*
 *
-*	Star Wars: Astromechs
+*	Graphics Engine
 *	By: Darren Kent
 *
 */
@@ -11,7 +11,7 @@
 
 #include "Display.h"
 #include "SceneManager.h"
-#include "Texture.h"
+#include "TextureManager.h"
 #include "TimeManager.h"
 
 // Application Class
@@ -28,7 +28,7 @@ class Application {
 		void EndFrame();									// Must be done at the end of each frame
 	protected:
 		MSG				wMsg;								// Windows Message System
-		bool			 mActive;							// Status of the Main Loop
+		bool			mActive;							// Status of the Main Loop
 		Display			*DISPLAY_MGR;						// Main Display Manager
 		SceneManager	*SCENE_MGR;							// Primary Scene Manager
 		TimeManager		*TIME_MGR;							// Primary Time Manager

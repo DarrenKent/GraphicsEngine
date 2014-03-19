@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "Debug.h"
-#include "Texture.h"
+#include "TextureManager.h"
 
 TextureManager::TextureManager() {
 	mTextureCount = -1;

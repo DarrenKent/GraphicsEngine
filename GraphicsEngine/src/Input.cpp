@@ -1,6 +1,6 @@
 /*
 *
-*	Star Wars: Astromechs
+*	Graphics Engine
 *	By: Darren Kent
 *
 */

@@ -13,7 +13,7 @@
 
 #include "Debug.h"
 #include "Model.h"
-#include "Texture.h"
+#include "TextureManager.h"
 
 Model::Model() {
 	mColor[0]		= 1.0f; 
