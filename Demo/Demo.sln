@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Demo", "Demo\Demo.vcxproj", "{C89EB2EA-E991-403F-94C8-A4358BBBF79B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsEngine", "..\GraphicsEngine\GraphicsEngine.vcxproj", "{5739D7BA-343C-4167-A981-02345340AC73}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C89EB2EA-E991-403F-94C8-A4358BBBF79B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C89EB2EA-E991-403F-94C8-A4358BBBF79B}.Debug|Win32.Build.0 = Debug|Win32
+		{C89EB2EA-E991-403F-94C8-A4358BBBF79B}.Release|Win32.ActiveCfg = Release|Win32
+		{C89EB2EA-E991-403F-94C8-A4358BBBF79B}.Release|Win32.Build.0 = Release|Win32
+		{5739D7BA-343C-4167-A981-02345340AC73}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5739D7BA-343C-4167-A981-02345340AC73}.Debug|Win32.Build.0 = Debug|Win32
+		{5739D7BA-343C-4167-A981-02345340AC73}.Release|Win32.ActiveCfg = Release|Win32
+		{5739D7BA-343C-4167-A981-02345340AC73}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

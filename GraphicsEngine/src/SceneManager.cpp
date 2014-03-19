@@ -1,0 +1,156 @@
+/*
+*
+*	Star Wars: Astromechs
+*	By: Darren Kent
+*
+*/
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include <sstream>
+
+#include "Debug.h"
+#include "SceneManager.h"
+
+SceneManager::SceneManager() {
+	DebugMessage( "Creating Scene Manager...", 3 );
+	DebugMessage( "WARNING: Incorrect Constructor used for SceneManager.", 2 );
+	mCurrentFont = NULL;
+	mPolygonTotal = 0;
+	mVerticesTotal = 0;
+}
+
+SceneManager::SceneManager( HDC hDC ) {
+	DebugMessage( "Creating Scene Manager...", 3 );
+	this->hDC = hDC;
+
+	FontHandle* tDefaultFont = new FontHandle( hDC );
+	tDefaultFont->LoadFont();
+	mCurrentFont = tDefaultFont;
+	mPolygonTotal = 0;
+	mVerticesTotal = 0;
+}
+
+void SceneManager::AddNode( std::string key, std::string filename, GLuint texture ) {
+	DebugMessage( "Adding node: " + key, 4 );
+	if ( mModels[filename] ) {
+		DebugMessage( filename + "Has already been loaded. Using previously loaded model.", 4 );
+		Node *tNode = new Node( key, mModels[filename], texture );
+		mNodes[key] = tNode;
+	} else {
+		Node *tNode = new Node( key, filename, texture );
+		mNodes[key] = tNode;
+		mPolygonTotal += mNodes[key]->GetModel()->GetPolygonCount();
+		mVerticesTotal += mNodes[key]->GetModel()->GetVerticeCount();
+		mModels[filename] = tNode->GetModel()->GetModelId();
+	}
+}
+
+void SceneManager::AddNode( std::string key, GLuint modelId, GLuint texture ) {
+	DebugMessage( "Adding node: " + key, 4 );
+	Node *tNode = new Node( key, modelId, texture );
+	mNodes[key] = tNode;
+}
+
+void SceneManager::DrawScene(){
+	std::vector<Node*> tTransparentNodes;
+
+	std::map<std::string, Node*>::iterator tNode;
+	for (tNode = mNodes.begin(); tNode != mNodes.end(); ++tNode) {
+		if ( tNode->second->GetModel()->GetDepthMask() )
+			tNode->second->DrawNode();
+		else
+			tTransparentNodes.push_back(tNode->second);
+	}
+
+
+	glDepthMask( GL_FALSE );
+	int tPriority = 0;
+	unsigned int tDrawn = 0;
+	while ( tDrawn < tTransparentNodes.size() ) {
+		for ( unsigned int iNode = 0; iNode < tTransparentNodes.size(); iNode++ ){
+			if ( tTransparentNodes[iNode]->GetModel()->GetDrawPriority() == tPriority ) {
+				tTransparentNodes[iNode]->DrawNode();
+				tDrawn ++;
+			}
+		}
+		tPriority ++;
+	}
+	glDepthMask( GL_TRUE );
+}
+
+void SceneManager::DrawSceneRange( float xPos, float yPos, float zPos, float range ){
+	std::vector<Node*> tTransparentNodes;
+
+	std::map<std::string, Node*>::iterator tNode;
+	for (tNode = mNodes.begin(); tNode != mNodes.end(); ++tNode) {
+		float tXDiff	= ( tNode->second->GetXPos() - xPos );
+		float tYDiff	= ( tNode->second->GetYPos() - yPos );
+		float tZDiff	= ( tNode->second->GetZPos() - zPos );
+		float tDistance = std::sqrt( std::pow( tXDiff, 2 ) + std::pow( tYDiff, 2 ) + std::pow( tZDiff, 2 ) );
+		if ( tDistance <= range ) {
+			if ( tNode->second->GetModel()->GetDepthMask() )
+				tNode->second->DrawNode();
+			else
+				tTransparentNodes.push_back( tNode->second );
+		}
+	}
+
+	glDepthMask( GL_FALSE );
+	int tPriority = 0;
+	unsigned int tDrawn = 0;
+	while ( tDrawn < tTransparentNodes.size() ) {
+		for ( unsigned int iNode = 0; iNode < tTransparentNodes.size(); iNode++ ){
+			if ( tTransparentNodes[iNode]->GetModel()->GetDrawPriority() == tPriority ) {
+				tTransparentNodes[iNode]->DrawNode();
+				tDrawn ++;
+			}
+		}
+		tPriority ++;
+	}
+	glDepthMask( GL_TRUE );
+}
+
+Node* SceneManager::GetNode( std::string key ) {
+	Node *tNode = mNodes[key];
+	if( tNode )
+		return tNode;
+	else
+		FatalError( "Cannot Locate Node: " + key );
+	return tNode;
+}
+
+void SceneManager::AddFont( std::string key ) {
+	FontHandle* tNewFont = new FontHandle( hDC );
+	mFonts[key] = tNewFont;
+}
+
+void SceneManager::AddFont( std::string key, LPCWSTR fontName, int size ) {
+	FontHandle* tNewFont = new FontHandle( hDC, fontName, size );
+	mFonts[key] = tNewFont;
+}
+
+FontHandle* SceneManager::GetFont( std::string key ) {
+	return mFonts[key];
+}
+
+void SceneManager::SetFont( std::string key ) {
+	mCurrentFont = mFonts[key];
+	mCurrentFont->LoadFont();
+}
+
+GLuint SceneManager::GetCurrentFontId() {
+	if( mCurrentFont ){
+		return mCurrentFont->GetDisplayId();
+	}
+	FatalError( "No Font Loaded." );
+	return -1;
+}
+
+int SceneManager::GetTotalPolygons(){
+	return mPolygonTotal;
+}
+
+int SceneManager::GetTotalVertices(){
+	return mVerticesTotal;
+}
