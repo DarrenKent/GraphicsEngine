@@ -55,16 +55,20 @@ class Model {
 
 		void SetColor(	GLfloat red, 
 						GLfloat green, 
-						GLfloat blue );						// Sets the Object Color
+						GLfloat blue,
+						GLfloat alpha );					// Sets the Object Color
 		void SetAmbient(	GLfloat red,
 							GLfloat green,
-							GLfloat blue );					// Sets the Object's Ambience
+							GLfloat blue,
+							GLfloat alpha );				// Sets the Object's Ambience
 		void SetDiffuse(	GLfloat red,
 							GLfloat green,
-							GLfloat blue );					// Set the Object's Diffuse
+							GLfloat blue,
+							GLfloat alpha );				// Set the Object's Diffuse
 		void SetSpecular(	GLfloat red,
 							GLfloat green,
-							GLfloat blue );					// Set the Object's Specular
+							GLfloat blue,
+							GLfloat alpha );				// Set the Object's Specular
 		void SetShininess( GLfloat shininess );				// Set the Object's Shininess
 		int GetPolygonCount();								// Returns the Amount of Polygons in this Node's model
 		int GetVerticeCount();								// Returns the Amount of Vertices in this Node's model
@@ -75,8 +79,6 @@ class Model {
 		bool GetDepthMask();								// Returns the Object Depth Mask mode
 		void SetDrawPriority( int priority );				// Sets the Objects Draw Priority
 		int GetDrawPriority();								// Returns the Objects Draw Priority
-		void SetTransparency( float transparency );			// Sets the Objects Transparency
-		float GetTransparency();							// Returns the Objects Transparency
 		 
 	protected:
 	private:
@@ -87,12 +89,11 @@ class Model {
 		std::vector<Vector> mTexCoords;						// List of all texture coordinates
 		int					mPolygonCount;					// Number of faces on the model
 		GLuint				mTexture;						// Filename of texture
-		GLfloat				mColor[3];						// Color of Model
-		GLfloat				mAmbient[3];					// Ambient of Model
-		GLfloat				mDiffuse[3];					// Diffuse of Model
-		GLfloat				mSpecular[3];					// Specular of Model
+		GLfloat				mColor[4];						// Color of Model
+		GLfloat				mAmbient[4];					// Ambient of Model
+		GLfloat				mDiffuse[4];					// Diffuse of Model
+		GLfloat				mSpecular[4];					// Specular of Model
 		GLfloat				mShininess;						// Shininess of Model
-		float				mTransparency;					// Object Transparency
 		bool				mLighted;						// Determines if lights effect this object
 		bool				mDepthMask;						// Determines if depth mask is on or off
 		int					mDrawPriority;					// Drawing Priority

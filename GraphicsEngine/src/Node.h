@@ -30,18 +30,21 @@ class Node{
 		void SetVisible( bool visible );					// Sets the Node's Visibility
 		void SetColor(	GLfloat red, 
 						GLfloat green, 
-						GLfloat blue );						// Sets the Object Color
+						GLfloat blue,
+						GLfloat alpha );					// Sets the Object Color
 		void SetAmbient(	GLfloat red,
 							GLfloat green,
-							GLfloat blue );					// Sets the Object's Ambience
+							GLfloat blue,
+							GLfloat alpha );				// Sets the Object's Ambience
 		void SetDiffuse(	GLfloat red,
 							GLfloat green,
-							GLfloat blue );					// Set the Object's Diffuse
+							GLfloat blue,
+							GLfloat alpha );				// Set the Object's Diffuse
 		void SetSpecular(	GLfloat red,
 							GLfloat green,
-							GLfloat blue );					// Set the Object's Specular
+							GLfloat blue,
+							GLfloat alpha );				// Set the Object's Specular
 		void SetShininess( GLfloat shininess );				// Set the Object's Shininess
-		void SetTransparency( GLfloat transparency );		// Sets the transparency of the object
 		void SetScale( float scale );						// Sets the scale of the Node
 		void SetPosition( float x, float y, float z );		// Sets the position of the Node
 		void SetRotation( float y, float p, float r );		// Sets the rotation of the Node
@@ -51,7 +54,24 @@ class Node{
 		float GetYaw();										// Gets the yaw rotation of the Node
 		float GetPitch();									// Gets the pitch rotation of the Node
 		float GetRoll();									// Gets the roll rotation of the Node
-	
+		int GetDrawPriority();								// Returns the Draw Priority
+		void SetDrawPriority( int priority );				// Sets the Draw Priority
+		bool GetDepthMask();								// Returns the Depth Mask
+		void SetDepthMask( bool mask );						// Sets the Depth Mask
+
+		Node* AddChild( std::string key );					// Adds a blank Child
+		Node* AddChild( std::string key, 
+						std::string filename, 
+						GLuint texture );					// Adds a child and loads a model
+		Node* AddChild( std::string key, 
+						GLuint modelId, 
+						GLuint texture );					// Adds a child with an instanced model
+		Node* GetChild( std::string key );					// Returns a child given a key
+		void RemoveChild( std::string key );				// Removes a child from the parent
+		void ClearChildren();								// Clears all children	
+
+		int GetVerticeCount();								// Returns the vertice count
+		int GetPolygonCount();								// Returns the polygon count
 	protected:
 	private:
 		std::string mId;									// String Id
@@ -61,6 +81,10 @@ class Node{
 		bool	mVisible;									// Visibility
 		Model*	mModel;										// Model
 		std::map<std::string, Node*>	mChildren;			// Child Nodes
+		bool	mDepthMask;									// Use Draw Mask
+		int		mDrawPriority;								// Draw Priority
+		int		mVerticeCount;								// Total Vertices of all Children
+		int		mPolygonCount;								// Total Polygons of all Children
 };
 
 #endif // _NODE_

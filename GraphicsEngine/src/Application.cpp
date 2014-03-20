@@ -48,6 +48,7 @@ void Application::EndFrame() {
 	DISPLAY_MGR->SetOrthographicProjection();
 	glLoadIdentity();
 
+	SCENE_MGR->CalculatePolygonCount();
 	DrawDebugGUI(	SCENE_MGR->GetCurrentFontId(),
 					(float)TIME_MGR->GetFramesPerSecond(), 
 					SCENE_MGR->GetTotalPolygons(), 

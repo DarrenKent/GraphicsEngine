@@ -17,6 +17,11 @@ Node::Node( std::string id ) {
 	mYaw = mPitch = mRoll	= .00001f;
 	mScale					= 1.0f;
 	mVisible				= false;
+	mModel					= NULL;
+	mDepthMask				= true;
+	mDrawPriority			= 0;
+	mPolygonCount			= 0;
+	mVerticeCount			= 0;
 }
 
 Node::Node( std::string id, GLuint modelId, GLuint texture ) {
@@ -29,6 +34,10 @@ Node::Node( std::string id, GLuint modelId, GLuint texture ) {
 	mModel = new Model();
 	mModel->SetModelId( modelId );
 	mModel->SetTextureId( texture );
+	mDepthMask				= true;
+	mDrawPriority			= 0;
+	mPolygonCount			= 0;
+	mVerticeCount			= 0;
 }
 
 Node::Node( std::string id, std::string filename, GLuint texture ) {
@@ -37,10 +46,16 @@ Node::Node( std::string id, std::string filename, GLuint texture ) {
 	mYaw = mPitch = mRoll	= .00001f;
 	mScale					= 1.0f;
 	mVisible				= true;
+	mDepthMask				= true;
+	mDrawPriority			= 0;
+	mPolygonCount			= 0;
+	mVerticeCount			= 0;
 	DebugMessage( "Adding Model: " + filename, 4 );
 	mModel = new Model();
 	bool tSuccess = mModel->LoadModel( filename, texture );
 	if ( tSuccess ) {
+		mPolygonCount += mModel->GetPolygonCount();
+		mVerticeCount += mModel->GetVerticeCount();
 		DebugMessage( "Model Successfully Loaded: " + filename, 4 );
 	} else {
 		FatalError( "Model Failed to Load: " + filename );
@@ -59,7 +74,7 @@ void Node::DrawNode() {
 	glRotatef( mRoll, 1, 0, 0 );
 	glScalef( mScale, mScale, mScale );
 	glEnable( GL_NORMALIZE );
-	if ( mVisible )
+	if ( mModel && mVisible )
 		mModel->DrawModel();
 	glDisable( GL_NORMALIZE );
 
@@ -78,24 +93,20 @@ void Node::SetVisible( bool visible ) {
 	mVisible = visible;
 }
 
-void Node::SetColor( GLfloat red, GLfloat green, GLfloat blue ) {
-	mModel->SetColor( red, green, blue );
+void Node::SetColor( GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha ) {
+	mModel->SetColor( red, green, blue, alpha );
 }
 
-void Node::SetTransparency( GLfloat transparency ) {
-	mModel->SetTransparency( transparency );
+void Node::SetAmbient( GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha ) {
+	mModel->SetAmbient( red, green, blue, alpha );
 }
 
-void Node::SetAmbient( GLfloat red, GLfloat green, GLfloat blue ) {
-	mModel->SetAmbient( red, green, blue );
+void Node::SetDiffuse( GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha ) {
+	mModel->SetDiffuse( red, green, blue, alpha );
 }
 
-void Node::SetDiffuse( GLfloat red, GLfloat green, GLfloat blue ) {
-	mModel->SetDiffuse( red, green, blue );
-}
-
-void Node::SetSpecular( GLfloat red, GLfloat green, GLfloat blue ) {
-	mModel->SetSpecular( red, green, blue );
+void Node::SetSpecular( GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha ) {
+	mModel->SetSpecular( red, green, blue, alpha );
 }
 
 void Node::SetShininess( GLfloat shininess ) {
@@ -141,3 +152,66 @@ float Node::GetPitch() {
 float Node::GetRoll() {
 	return mRoll;
 }
+
+bool Node::GetDepthMask() {
+	return mDepthMask;
+}
+
+void Node::SetDepthMask( bool mask ) {
+	mDepthMask = mask;
+}
+
+void Node::SetDrawPriority( int priority ) {
+	mDrawPriority = priority;
+}
+
+int Node::GetDrawPriority() {
+	return mDrawPriority;
+}
+
+Node* Node::AddChild( std::string key ) {
+	DebugMessage( "Adding node: " + key, 4 );
+	Node* tNode = new Node( key );
+	mChildren[key] = tNode;
+	return tNode;
+}
+
+Node* Node::AddChild( std::string key, std::string filename, GLuint texture ) {
+	DebugMessage( "Adding node: " + key, 4 );
+	Node *tNode = new Node( key, filename, texture );
+	mChildren[key] = tNode;
+	mPolygonCount += mChildren[key]->GetPolygonCount();
+	mVerticeCount += mChildren[key]->GetVerticeCount();
+	return tNode;
+}
+
+Node* Node::AddChild( std::string key, GLuint modelId, GLuint texture ) {
+	DebugMessage( "Adding node: " + key, 4 );
+	Node *tNode = new Node( key, modelId, texture );
+	mChildren[key] = tNode;
+	return tNode;
+}
+
+Node* Node::GetChild( std::string key ) {
+	return mChildren[key];
+}
+
+void Node::RemoveChild( std::string key ) {
+	mChildren.erase( key );
+}
+
+void Node::ClearChildren() {
+	std::map<std::string, Node*>::iterator tChild;
+	for ( tChild = mChildren.begin(); tChild != mChildren.end(); ++tChild) {
+		delete &tChild;
+	}
+}
+
+int Node::GetVerticeCount() {
+	return mVerticeCount;
+}
+
+int Node::GetPolygonCount() {
+	return mPolygonCount;
+}
+

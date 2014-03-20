@@ -32,25 +32,43 @@ SceneManager::SceneManager( HDC hDC ) {
 	mVerticesTotal = 0;
 }
 
-void SceneManager::AddNode( std::string key, std::string filename, GLuint texture ) {
+Node* SceneManager::AddNode( std::string key ) {
+	DebugMessage( "Adding node: " + key, 4 );
+	Node* tNode = new Node( key );
+	mNodes[key] = tNode;
+	return tNode;
+}
+
+Node* SceneManager::AddNode( std::string key, std::string filename, GLuint texture ) {
 	DebugMessage( "Adding node: " + key, 4 );
 	if ( mModels[filename] ) {
 		DebugMessage( filename + " Has already been loaded. Using previously loaded model.", 4 );
 		Node *tNode = new Node( key, mModels[filename], texture );
 		mNodes[key] = tNode;
+		return tNode;
 	} else {
 		Node *tNode = new Node( key, filename, texture );
 		mNodes[key] = tNode;
 		mPolygonTotal += mNodes[key]->GetModel()->GetPolygonCount();
 		mVerticesTotal += mNodes[key]->GetModel()->GetVerticeCount();
 		mModels[filename] = tNode->GetModel()->GetModelId();
+		return tNode;
 	}
 }
 
-void SceneManager::AddNode( std::string key, GLuint modelId, GLuint texture ) {
+Node* SceneManager::AddNode( std::string key, GLuint modelId, GLuint texture ) {
 	DebugMessage( "Adding node: " + key, 4 );
 	Node *tNode = new Node( key, modelId, texture );
 	mNodes[key] = tNode;
+	return tNode;
+}
+
+void SceneManager::ClearScene() {
+	std::map<std::string, Node*>::iterator tNode;
+	for (tNode = mNodes.begin(); tNode != mNodes.end(); ++tNode) {
+		delete &tNode;
+	}
+	mNodes.clear();
 }
 
 void SceneManager::DrawScene(){
@@ -58,7 +76,7 @@ void SceneManager::DrawScene(){
 
 	std::map<std::string, Node*>::iterator tNode;
 	for (tNode = mNodes.begin(); tNode != mNodes.end(); ++tNode) {
-		if ( tNode->second->GetModel()->GetDepthMask() )
+		if ( tNode->second->GetDepthMask() )
 			tNode->second->DrawNode();
 		else
 			tTransparentNodes.push_back(tNode->second);
@@ -70,7 +88,7 @@ void SceneManager::DrawScene(){
 	unsigned int tDrawn = 0;
 	while ( tDrawn < tTransparentNodes.size() ) {
 		for ( unsigned int iNode = 0; iNode < tTransparentNodes.size(); iNode++ ){
-			if ( tTransparentNodes[iNode]->GetModel()->GetDrawPriority() == tPriority ) {
+			if ( tTransparentNodes[iNode]->GetDrawPriority() == tPriority ) {
 				tTransparentNodes[iNode]->DrawNode();
 				tDrawn ++;
 			}
@@ -90,7 +108,7 @@ void SceneManager::DrawSceneRange( float xPos, float yPos, float zPos, float ran
 		float tZDiff	= ( tNode->second->GetZPos() - zPos );
 		float tDistance = std::sqrt( std::pow( tXDiff, 2 ) + std::pow( tYDiff, 2 ) + std::pow( tZDiff, 2 ) );
 		if ( tDistance <= range ) {
-			if ( tNode->second->GetModel()->GetDepthMask() )
+			if ( tNode->second->GetDepthMask() )
 				tNode->second->DrawNode();
 			else
 				tTransparentNodes.push_back( tNode->second );
@@ -102,7 +120,7 @@ void SceneManager::DrawSceneRange( float xPos, float yPos, float zPos, float ran
 	unsigned int tDrawn = 0;
 	while ( tDrawn < tTransparentNodes.size() ) {
 		for ( unsigned int iNode = 0; iNode < tTransparentNodes.size(); iNode++ ){
-			if ( tTransparentNodes[iNode]->GetModel()->GetDrawPriority() == tPriority ) {
+			if ( tTransparentNodes[iNode]->GetDrawPriority() == tPriority ) {
 				tTransparentNodes[iNode]->DrawNode();
 				tDrawn ++;
 			}
@@ -146,6 +164,16 @@ GLuint SceneManager::GetCurrentFontId() {
 	}
 	FatalError( "No Font Loaded." );
 	return -1;
+}
+
+void SceneManager::CalculatePolygonCount() {
+	mPolygonTotal = 0;
+	mVerticesTotal = 0;
+	std::map<std::string, Node*>::iterator tNode;
+	for (tNode = mNodes.begin(); tNode != mNodes.end(); ++tNode) {
+		mPolygonTotal += tNode->second->GetPolygonCount();
+		mVerticesTotal += tNode->second->GetVerticeCount();
+	}
 }
 
 int SceneManager::GetTotalPolygons(){

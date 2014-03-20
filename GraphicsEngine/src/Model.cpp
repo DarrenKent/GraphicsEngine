@@ -18,19 +18,22 @@ Model::Model() {
 	mColor[0]		= 1.0f; 
 	mColor[1]		= 1.0f;
 	mColor[2]		= 1.0f;
+	mColor[3]		= 1.0f;
 	mAmbient[0]		= 1.0f;
 	mAmbient[1]		= 1.0f;
 	mAmbient[2]		= 1.0f;
+	mAmbient[3]		= 1.0f;
 	mDiffuse[0]		= 1.0f;
 	mDiffuse[1]		= 1.0f;
 	mDiffuse[2]		= 1.0f;
+	mDiffuse[3]		= 1.0f;
 	mSpecular[0]	= 1.0f;
 	mSpecular[1]	= 1.0f;
 	mSpecular[2]	= 1.0f;
+	mSpecular[3]	= 1.0f;
 	mShininess		= 0;
 	mPolygonCount	= 0;
 	mTexture		= NULL;
-	mTransparency	= 1.0f;
 	mLighted		= true;
 	mDepthMask		= true;
 	mDrawPriority	= 0;
@@ -165,7 +168,7 @@ void Model::DrawModel() {
 	glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR, mSpecular );
 	glMaterialf( GL_FRONT, GL_SHININESS, mShininess );
 	
-	glColor4f( mColor[0], mColor[1], mColor[2], mTransparency );
+	glColor4f( mColor[0], mColor[1], mColor[2], mColor[3] );
 	if ( mTexture ) {
 		glEnable( GL_TEXTURE_2D );
 		glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
@@ -186,28 +189,32 @@ void Model::DrawModel() {
 		glDisable( GL_LIGHTING );
 }
 
-void Model::SetColor( GLfloat red, GLfloat green, GLfloat blue )  {
+void Model::SetColor( GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha )  {
 	mColor[0] = red;
 	mColor[1] = green;
 	mColor[2] = blue;
+	mColor[3] = alpha;
 }
 
-void Model::SetAmbient( GLfloat red, GLfloat green, GLfloat blue )  {
+void Model::SetAmbient( GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha )  {
 	mAmbient[0] = red;
 	mAmbient[1] = green;
 	mAmbient[2] = blue;
+	mAmbient[3] = alpha;
 }
 
-void Model::SetDiffuse( GLfloat red, GLfloat green, GLfloat blue )  {
+void Model::SetDiffuse( GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha )  {
 	mDiffuse[0] = red;
 	mDiffuse[1] = green;
 	mDiffuse[2] = blue;
+	mDiffuse[3] = alpha;
 }
 
-void Model::SetSpecular( GLfloat red, GLfloat green, GLfloat blue )  {
+void Model::SetSpecular( GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha )  {
 	mSpecular[0] = red;
 	mSpecular[1] = green;
 	mSpecular[2] = blue;
+	mSpecular[3] = alpha;
 }
 
 void Model::SetShininess( GLfloat shininess ) {
@@ -260,12 +267,4 @@ void Model::SetDrawPriority( int priority ) {
 
 int Model::GetDrawPriority() {
 	return mDrawPriority;
-}
-
-void Model::SetTransparency( float transparency ){
-	mTransparency = transparency;
-}
-
-float Model::GetTransparency(){
-	return mTransparency;
 }

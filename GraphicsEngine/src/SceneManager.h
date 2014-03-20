@@ -20,12 +20,14 @@ class SceneManager {
 		SceneManager();										// Scene Manager Constructor
 		SceneManager( HDC hDC );							// Primary Scene Manager Constructor
 
-		void AddNode(	std::string key, 
+		Node* AddNode(   std::string key );					// Adds a blank Node to the Scene
+		Node* AddNode(	std::string key, 
 						std::string filename,
 						GLuint texture );					// Adds a model to the Scene
-		void AddNode(	std::string key,
+		Node* AddNode(	std::string key,
 						GLuint modelId,
 						GLuint texture );					// Adds an instanced model to the Scene
+		void ClearScene();									// Removes all Nodes from the Scene
 
 		void DrawScene();									// Draws one frame of the Scene
 		void DrawSceneRange(	float xPos,
@@ -40,13 +42,14 @@ class SceneManager {
 		FontHandle* GetFont( std::string key );				// Retrives a font given the key
 		void SetFont( std::string key );					// Sets the current font given a key
 		GLuint GetCurrentFontId();							// Returns the current font id
+		void CalculatePolygonCount();						// Calculates the polygon and vertices
 		int GetTotalPolygons();								// Returns the total Polygons being rendered in the scene
 		int GetTotalVertices();								// Returns the total Vertices being rendered in the scene
 	protected:
 	private:
 		HDC									hDC;			// Display Controller
 		std::map<std::string, Node*>		mNodes;			// A list of all Nodes in the scene
-		std::map<std::string, GLuint>		mModels;	// A list of all Models loaded into the scene
+		std::map<std::string, GLuint>		mModels;		// A list of all Models loaded into the scene
 		std::map<std::string, FontHandle*>	mFonts;			// A list of all fonts in the scene
 		FontHandle*							mCurrentFont;	// Current Font being used
 		int									mPolygonTotal;	// Total Polygons in the Scene

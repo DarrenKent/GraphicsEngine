@@ -49,11 +49,13 @@ void Game::InitializeGame() {
 	GLuint tTexture3 = TEXTURE_MGR->LoadTexture( "brushed", "data/textures/brushed.tga", false )->GetTextureId();
 	GLuint tTexture4 = TEXTURE_MGR->LoadTexture( "brushed", "data/textures/brushed.tga", false )->GetTextureId();
 
-	SCENE_MGR->AddNode( "temple", "data/models/temple.obj", tTexture1 );
-	SCENE_MGR->AddNode( "temple2", "data/models/temple.obj", tTexture2 );
-	SCENE_MGR->AddNode( "temple3", "data/models/temple.obj", tTexture4 );
-	SCENE_MGR->GetNode( "temple2" )->SetPosition( 0.0f, 250.0f, 0.0f );
-	SCENE_MGR->GetNode( "temple3" )->SetPosition( 0.0f, -250.0f, 0.0f );
+	Node* tBase = SCENE_MGR->AddNode( "base" );
+
+	Node* tTemple1 = tBase->AddChild( "temple", "data/models/temple.obj", tTexture1 );
+	Node* tTemple2 = tBase->AddChild( "temple2", "data/models/temple.obj", tTexture2 );
+	Node* tTemple3 = tBase->AddChild( "temple3", "data/models/temple.obj", tTexture4 );
+	tTemple2->SetPosition( 0.0f, 250.0f, 0.0f );
+	tTemple3->SetPosition( 0.0f, -250.0f, 0.0f );
 }
 
 void Game::GameLogic() {}
@@ -73,6 +75,11 @@ void Game::ProcessInput() {
 		mCamera->RotateCamTheta( 25.0f * tDeltaTime );
 	if ( GetKeyHeld( 's' ) )
 		mCamera->RotateCamTheta( -25.0f * tDeltaTime );
+
+	if ( GetKeyHeld( 'j' ) ) {
+		float tRotation = SCENE_MGR->GetNode( "base" )->GetYaw();
+		SCENE_MGR->GetNode( "base" )->SetRotation( tRotation + 25.0f * tDeltaTime, 0.0f, 0.0f );
+	}
 }
 
 void Game::DrawFrame() {
