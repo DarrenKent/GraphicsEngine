@@ -19,10 +19,10 @@ class Node{
 		Node(	std::string id );							// Empty Node
 		Node(	std::string id, 
 				GLuint modelId, 
-				GLuint texture );							// Instanced Node
+				Texture *texture );							// Instanced Node
 		Node(	std::string id, 
 				std::string filename,
-				GLuint texture );							// Node with Model Attached
+				Texture *texture );							// Node with Model Attached
 
 		Model* GetModel();									// Returns a pointer to the Node's model
 		void DrawNode();									// Draws the Node and its children
@@ -62,10 +62,10 @@ class Node{
 		Node* AddChild( std::string key );					// Adds a blank Child
 		Node* AddChild( std::string key, 
 						std::string filename, 
-						GLuint texture );					// Adds a child and loads a model
+						Texture *texture );					// Adds a child and loads a model
 		Node* AddChild( std::string key, 
 						GLuint modelId, 
-						GLuint texture );					// Adds a child with an instanced model
+						Texture *texture );					// Adds a child with an instanced model
 		Node* GetChild( std::string key );					// Returns a child given a key
 		void RemoveChild( std::string key );				// Removes a child from the parent
 		void ClearChildren();								// Clears all children	

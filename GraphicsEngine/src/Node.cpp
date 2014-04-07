@@ -24,7 +24,7 @@ Node::Node( std::string id ) {
 	mVerticeCount			= 0;
 }
 
-Node::Node( std::string id, GLuint modelId, GLuint texture ) {
+Node::Node( std::string id, GLuint modelId, Texture *texture ) {
 	mId						= id;
 	mXPos = mYPos = mZPos	= 0;
 	mYaw = mPitch = mRoll	= .00001f;
@@ -40,7 +40,7 @@ Node::Node( std::string id, GLuint modelId, GLuint texture ) {
 	mVerticeCount			= 0;
 }
 
-Node::Node( std::string id, std::string filename, GLuint texture ) {
+Node::Node( std::string id, std::string filename, Texture *texture ) {
 	mId						= id;
 	mXPos = mYPos = mZPos	= 0;
 	mYaw = mPitch = mRoll	= .00001f;
@@ -176,7 +176,7 @@ Node* Node::AddChild( std::string key ) {
 	return tNode;
 }
 
-Node* Node::AddChild( std::string key, std::string filename, GLuint texture ) {
+Node* Node::AddChild( std::string key, std::string filename, Texture *texture ) {
 	DebugMessage( "Adding node: " + key, 4 );
 	Node *tNode = new Node( key, filename, texture );
 	mChildren[key] = tNode;
@@ -185,7 +185,7 @@ Node* Node::AddChild( std::string key, std::string filename, GLuint texture ) {
 	return tNode;
 }
 
-Node* Node::AddChild( std::string key, GLuint modelId, GLuint texture ) {
+Node* Node::AddChild( std::string key, GLuint modelId, Texture *texture ) {
 	DebugMessage( "Adding node: " + key, 4 );
 	Node *tNode = new Node( key, modelId, texture );
 	mChildren[key] = tNode;

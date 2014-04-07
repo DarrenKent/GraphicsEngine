@@ -10,48 +10,30 @@
 
 #include <Windows.h>
 #include <gl\GL.h>
+#include <map>
 #include <string>
 #include <vector>
+
+#include "Geometry.h"
+#include "TextureManager.h"
 
 // Model Class
 class Model {
 	public:
+		Model();					// Model Constructor
 
-		// Structures required for model interpretation.
-		struct Vertex {
-			float x;
-			float y;
-			float z;
-		};
-
-		struct Face {
-			int v1;
-			int v2;
-			int v3;
-			int v1n;
-			int v2n;
-			int v3n;
-			int t1;
-			int t2;
-			int t3;
-		};
-
-		struct Vector {
-			float x;
-			float y;
-			float z;
-		};
-
-		Model();											// Model Constructor
-
-		bool LoadModel( std::string file, GLuint texture );	// Load the model from a file
+		bool LoadModel( std::string file, 
+						Texture *texture );					// Load the model from a file
+		void LoadMaterials( std::string file,
+							std::map< std::string, 
+									  Material* > &matList );// Load a mtl file
 		void StoreModel();									// Stores Model to the Display List
 		void DrawModel();									// Draw the model to the screne
 
 		GLuint GetModelId();								// Returns the Model Id
 		void SetModelId( GLuint modelId );					// Sets the Model's Id
-		GLuint GetTextureId();								// Returns the Model's Texture Id
-		void SetTextureId( GLuint textureId );				// Sets the Model's Texture Id
+		Texture *GetTextureId();							// Returns the Model's Texture Id
+		void SetTextureId( Texture *texture );				// Sets the Model's Texture Id
 
 		void SetColor(	GLfloat red, 
 						GLfloat green, 
@@ -74,29 +56,17 @@ class Model {
 		int GetVerticeCount();								// Returns the Amount of Vertices in this Node's model
 
 		void SetLighted( bool lighted );					// Sets the Object Lighting
-		bool GetLighted();									// Returns the Object Lighting
-		void SetDepthMask( bool mask );						// Sets the Object Depth Mask mode
-		bool GetDepthMask();								// Returns the Object Depth Mask mode
-		void SetDrawPriority( int priority );				// Sets the Objects Draw Priority
-		int GetDrawPriority();								// Returns the Objects Draw Priority
+		bool GetLighted();									// Get the Object Lighting
 		 
 	protected:
 	private:
+		TextureManager		*mTextureMgr;
 		GLuint				mModelId;						// Display List Id
-		std::vector<Vertex> mVertices;						// List of all the vertices of the model
-		std::vector<Face>	mFaces;							// List of all the faces of the model
-		std::vector<Vector> mNormals;						// List of all the normals of the model
-		std::vector<Vector> mTexCoords;						// List of all texture coordinates
+		std::vector<Face*>	mFaces;							// List of all the faces of the model
 		int					mPolygonCount;					// Number of faces on the model
-		GLuint				mTexture;						// Filename of texture
-		GLfloat				mColor[4];						// Color of Model
-		GLfloat				mAmbient[4];					// Ambient of Model
-		GLfloat				mDiffuse[4];					// Diffuse of Model
-		GLfloat				mSpecular[4];					// Specular of Model
-		GLfloat				mShininess;						// Shininess of Model
-		bool				mLighted;						// Determines if lights effect this object
-		bool				mDepthMask;						// Determines if depth mask is on or off
-		int					mDrawPriority;					// Drawing Priority
+		int					mVertexCount;					// Number of vertices on the model
+		Texture				*mTexture;						// Filename of texture
+		bool				mLighted;						// Whether the model is lit or not
 };
 
 #endif // _MODEL_

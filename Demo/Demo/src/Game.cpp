@@ -44,18 +44,25 @@ void Game::Start() {
 void Game::InitializeGame() {
 	DebugMessage( "Initializing Game...", 3 );
 
-	GLuint tTexture1 = TEXTURE_MGR->LoadTexture( "chrome", "data/textures/chrome.tga", false )->GetTextureId();
-	GLuint tTexture2 = TEXTURE_MGR->LoadTexture( "magma", "data/textures/magma.tga", false )->GetTextureId();
-	GLuint tTexture3 = TEXTURE_MGR->LoadTexture( "brushed", "data/textures/brushed.tga", false )->GetTextureId();
-	GLuint tTexture4 = TEXTURE_MGR->LoadTexture( "brushed", "data/textures/brushed.tga", false )->GetTextureId();
+	Texture *tTexture1 = NULL; //TEXTURE_MGR->LoadTexture( "chrome", "data/textures/chrome.tga", false );
+	Texture *tTexture2 = NULL; //TEXTURE_MGR->LoadTexture( "magma", "data/textures/magma.tga", false );
+	Texture *tTexture3 = NULL; //TEXTURE_MGR->LoadTexture( "brushed", "data/textures/brushed.tga", false );
 
 	Node* tBase = SCENE_MGR->AddNode( "base" );
 
 	Node* tTemple1 = tBase->AddChild( "temple", "data/models/temple.obj", tTexture1 );
-	Node* tTemple2 = tBase->AddChild( "temple2", "data/models/temple.obj", tTexture2 );
-	Node* tTemple3 = tBase->AddChild( "temple3", "data/models/temple.obj", tTexture4 );
+	Node* tTemple2 = tBase->AddChild( "temple2", tTemple1->GetModel()->GetModelId(), tTexture2 );
+	Node* tTemple3 = tBase->AddChild( "temple3", tTemple1->GetModel()->GetModelId(), tTexture3 );
 	tTemple2->SetPosition( 0.0f, 250.0f, 0.0f );
 	tTemple3->SetPosition( 0.0f, -250.0f, 0.0f );
+
+	glPushMatrix();
+		GLfloat tLightPosition[] = { 0.0f, 0.0f, 75.0f, 1.0f };
+		glLightfv( GL_LIGHT0, GL_POSITION, tLightPosition );
+	glPopMatrix();
+
+	glEnable( GL_LIGHTING );
+	glEnable( GL_LIGHT0 );
 }
 
 void Game::GameLogic() {}

@@ -23,10 +23,10 @@ class SceneManager {
 		Node* AddNode(   std::string key );					// Adds a blank Node to the Scene
 		Node* AddNode(	std::string key, 
 						std::string filename,
-						GLuint texture );					// Adds a model to the Scene
+						Texture *texture );					// Adds a model to the Scene
 		Node* AddNode(	std::string key,
 						GLuint modelId,
-						GLuint texture );					// Adds an instanced model to the Scene
+						Texture *texture );					// Adds an instanced model to the Scene
 		void ClearScene();									// Removes all Nodes from the Scene
 
 		void DrawScene();									// Draws one frame of the Scene

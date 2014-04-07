@@ -39,7 +39,7 @@ Node* SceneManager::AddNode( std::string key ) {
 	return tNode;
 }
 
-Node* SceneManager::AddNode( std::string key, std::string filename, GLuint texture ) {
+Node* SceneManager::AddNode( std::string key, std::string filename, Texture *texture ) {
 	DebugMessage( "Adding node: " + key, 4 );
 	if ( mModels[filename] ) {
 		DebugMessage( filename + " Has already been loaded. Using previously loaded model.", 4 );
@@ -56,7 +56,7 @@ Node* SceneManager::AddNode( std::string key, std::string filename, GLuint textu
 	}
 }
 
-Node* SceneManager::AddNode( std::string key, GLuint modelId, GLuint texture ) {
+Node* SceneManager::AddNode( std::string key, GLuint modelId, Texture *texture ) {
 	DebugMessage( "Adding node: " + key, 4 );
 	Node *tNode = new Node( key, modelId, texture );
 	mNodes[key] = tNode;
