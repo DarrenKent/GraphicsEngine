@@ -18,8 +18,6 @@
 #include "Input.h"
 #include "TextureManager.h"
 
-float COUNT = 0;
-
 Game::Game() : Application() {
 	DebugMessage( "Creating Game Instance...", 3 );
 	mCamera	= new OrbitalCamera();
@@ -44,9 +42,9 @@ void Game::Start() {
 void Game::InitializeGame() {
 	DebugMessage( "Initializing Game...", 3 );
 
-	Texture *tTexture1 = NULL; //TEXTURE_MGR->LoadTexture( "chrome", "data/textures/chrome.tga", false );
-	Texture *tTexture2 = NULL; //TEXTURE_MGR->LoadTexture( "magma", "data/textures/magma.tga", false );
-	Texture *tTexture3 = NULL; //TEXTURE_MGR->LoadTexture( "brushed", "data/textures/brushed.tga", false );
+	Texture *tTexture1 = TEXTURE_MGR->LoadTexture( "chrome", "data/textures/chrome.tga", false );
+	Texture *tTexture2 = TEXTURE_MGR->LoadTexture( "magma", "data/textures/magma.tga", false );
+	Texture *tTexture3 = TEXTURE_MGR->LoadTexture( "brushed", "data/textures/brushed.tga", false );
 
 	Node* tBase = SCENE_MGR->AddNode( "base" );
 
@@ -55,14 +53,6 @@ void Game::InitializeGame() {
 	Node* tTemple3 = tBase->AddChild( "temple3", tTemple1->GetModel()->GetModelId(), tTexture3 );
 	tTemple2->SetPosition( 0.0f, 250.0f, 0.0f );
 	tTemple3->SetPosition( 0.0f, -250.0f, 0.0f );
-
-	glPushMatrix();
-		GLfloat tLightPosition[] = { 0.0f, 0.0f, 75.0f, 1.0f };
-		glLightfv( GL_LIGHT0, GL_POSITION, tLightPosition );
-	glPopMatrix();
-
-	glEnable( GL_LIGHTING );
-	glEnable( GL_LIGHT0 );
 }
 
 void Game::GameLogic() {}
@@ -75,17 +65,29 @@ void Game::ProcessInput() {
 
 	// Camera Controls
 	if ( GetKeyHeld( 'd' ) )
-		mCamera->RotateCamAlpha( 25.0f * tDeltaTime );
+		mCamera->RotateCamAlpha( 50.0f * tDeltaTime );
 	if ( GetKeyHeld( 'a' ) )
-		mCamera->RotateCamAlpha( -25.0f * tDeltaTime );
+		mCamera->RotateCamAlpha( -50.0f * tDeltaTime );
 	if ( GetKeyHeld( 'w' ) )
-		mCamera->RotateCamTheta( 25.0f * tDeltaTime );
+		mCamera->RotateCamTheta( 50.0f * tDeltaTime );
 	if ( GetKeyHeld( 's' ) )
-		mCamera->RotateCamTheta( -25.0f * tDeltaTime );
+		mCamera->RotateCamTheta( -50.0f * tDeltaTime );
+	if ( GetKeyHeld( 'r' ) ) {
+		float tRadius = mCamera->GetCameraRadius() - ( 150.0f * tDeltaTime );
+		if ( tRadius < 0.0f )
+			tRadius = 0.0f;
+		mCamera->SetCameraRadius( tRadius );
+	}
+	if ( GetKeyHeld( 'f' ) ) {
+		float tRadius = mCamera->GetCameraRadius() + ( 150.0f * tDeltaTime );
+		mCamera->SetCameraRadius( tRadius );
+	}
 
-	if ( GetKeyHeld( 'j' ) ) {
-		float tRotation = SCENE_MGR->GetNode( "base" )->GetYaw();
-		SCENE_MGR->GetNode( "base" )->SetRotation( tRotation + 25.0f * tDeltaTime, 0.0f, 0.0f );
+	if ( GetKeyPressed( 'm' ) ) {
+		int tDrawMode = SCENE_MGR->GetDrawMode() + 1;
+		if ( tDrawMode > 2 )
+			tDrawMode = 0;
+		SCENE_MGR->SetDrawMode( tDrawMode );
 	}
 }
 
@@ -94,10 +96,20 @@ void Game::DrawFrame() {
 
 	DISPLAY_MGR->SetPerspectiveProjection( 30.0f, 2.0f, 1000000.0f );
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
-
 	glEnable( GL_DEPTH_TEST );
+
 	mCamera->PositionCamera();
+
+	glPushMatrix();
+		GLfloat tLightPosition[] = { 0.0f, 0.0f, 50.0f, 1.0f };
+		glLightfv( GL_LIGHT0, GL_POSITION, tLightPosition );
+	glPopMatrix();
+	glEnable( GL_LIGHTING );
+	glEnable( GL_LIGHT0 );
+
+
 
 	glPushMatrix();
 		SCENE_MGR->DrawScene();

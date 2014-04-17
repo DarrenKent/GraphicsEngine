@@ -52,7 +52,11 @@ void Camera::SetCameraTheta( float theta ) {
 	mCamTheta = theta;
 }
 
-void Camera::SetTargetPos( float x, float y, float z) {
+void Camera::SetCameraRadius( float radius ) {
+	mCamRadius = radius;
+}
+
+void Camera::SetTargetPos( float x, float y, float z ) {
 	mTargetX = x;
 	mTargetY = y;
 	mTargetZ = z;

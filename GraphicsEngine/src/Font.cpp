@@ -37,9 +37,9 @@ FontHandle::FontHandle( HDC hDC, LPCWSTR name, int size ) {
 }
 
 void FontHandle::LoadFont() {
-	HFONT tFont;
-	HFONT tFinalFont;
-	GLuint chars;
+	HFONT	tFont;
+	HFONT	tFinalFont;
+	GLuint	chars;
 	
 	chars		= glGenLists( 96 );
 	mListId		= chars;
@@ -90,5 +90,5 @@ void FontHandle::SetFontName( LPCWSTR name ) {
 }
 
 GLuint FontHandle::GetDisplayId() {
-	return this->mListId;
+	return mListId;
 }

@@ -16,9 +16,10 @@
 SceneManager::SceneManager() {
 	DebugMessage( "Creating Scene Manager...", 3 );
 	DebugMessage( "WARNING: Incorrect Constructor used for SceneManager.", 2 );
-	mCurrentFont = NULL;
-	mPolygonTotal = 0;
-	mVerticesTotal = 0;
+	mCurrentFont	= NULL;
+	mPolygonTotal	= 0;
+	mVerticesTotal	= 0;
+	mDrawMode		= 0;
 }
 
 SceneManager::SceneManager( HDC hDC ) {
@@ -27,9 +28,10 @@ SceneManager::SceneManager( HDC hDC ) {
 
 	FontHandle* tDefaultFont = new FontHandle( hDC );
 	tDefaultFont->LoadFont();
-	mCurrentFont = tDefaultFont;
-	mPolygonTotal = 0;
-	mVerticesTotal = 0;
+	mCurrentFont	= tDefaultFont;
+	mPolygonTotal	= 0;
+	mVerticesTotal	= 0;
+	mDrawMode		= 0;
 }
 
 Node* SceneManager::AddNode( std::string key ) {
@@ -72,6 +74,13 @@ void SceneManager::ClearScene() {
 }
 
 void SceneManager::DrawScene(){
+	if ( mDrawMode == 0 )
+		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+	else if ( mDrawMode == 1 )
+		glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
+	else
+		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+
 	std::vector<Node*> tTransparentNodes;
 
 	std::map<std::string, Node*>::iterator tNode;
@@ -96,9 +105,17 @@ void SceneManager::DrawScene(){
 		tPriority ++;
 	}
 	glDepthMask( GL_TRUE );
+	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 }
 
 void SceneManager::DrawSceneRange( float xPos, float yPos, float zPos, float range ){
+	if ( mDrawMode == 0 )
+		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+	else if ( mDrawMode == 1 )
+		glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
+	else
+		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+
 	std::vector<Node*> tTransparentNodes;
 
 	std::map<std::string, Node*>::iterator tNode;
@@ -128,6 +145,7 @@ void SceneManager::DrawSceneRange( float xPos, float yPos, float zPos, float ran
 		tPriority ++;
 	}
 	glDepthMask( GL_TRUE );
+	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 }
 
 Node* SceneManager::GetNode( std::string key ) {
@@ -182,4 +200,12 @@ int SceneManager::GetTotalPolygons(){
 
 int SceneManager::GetTotalVertices(){
 	return mVerticesTotal;
+}
+
+void SceneManager::SetDrawMode( int mode ) {
+	mDrawMode = mode;
+}
+
+int SceneManager::GetDrawMode() {
+	return mDrawMode;
 }

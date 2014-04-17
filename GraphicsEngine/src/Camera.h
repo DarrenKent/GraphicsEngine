@@ -19,6 +19,7 @@ class Camera{
 		void SetCameraZ( float z );							// Sets the camera's z position
 		void SetCameraAlpha( float alpha );					// Sets the camera's alpha rotation
 		void SetCameraTheta( float theta );					// Sets the camera's theta rotation
+		virtual void SetCameraRadius( float radius );		// Sets the camera's radius
 		void SetTargetPos( float x, float y, float z );		// Sets the camera's target position
 		void SetTargetX( float x );							// Sets the camera's target x position
 		void SetTargetY( float y );							// Sets the camera's target y position

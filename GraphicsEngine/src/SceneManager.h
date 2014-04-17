@@ -45,6 +45,8 @@ class SceneManager {
 		void CalculatePolygonCount();						// Calculates the polygon and vertices
 		int GetTotalPolygons();								// Returns the total Polygons being rendered in the scene
 		int GetTotalVertices();								// Returns the total Vertices being rendered in the scene
+		void SetDrawMode( int mode );						// Sets the Draw Mode
+		int GetDrawMode();									// Gets the Draw Mode
 	protected:
 	private:
 		HDC									hDC;			// Display Controller
@@ -54,6 +56,7 @@ class SceneManager {
 		FontHandle*							mCurrentFont;	// Current Font being used
 		int									mPolygonTotal;	// Total Polygons in the Scene
 		int									mVerticesTotal;	// Total Vertices in the Scene
+		int									mDrawMode;		// Draw Mode for Polygons 0 = Fill, 1 = Points, 2 = Lines
 };
 
 #endif // _SCENE_MANAGER_

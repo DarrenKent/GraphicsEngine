@@ -241,58 +241,60 @@ void Model::LoadMaterials( std::string file, std::map< std::string, Material* > 
 void Model::StoreModel() {
 	DebugMessage( "Storing Model to Display List...", 3 );
 	mModelId = glGenLists( 1 );
-	glNewList( mModelId, GL_COMPILE );
-		glPushMatrix();
-			glBegin( GL_TRIANGLES );
+	for ( GLuint iMode = 0; iMode < 3; ++iMode ) {
+		glNewList( mModelId + iMode, GL_COMPILE );
+			glPushMatrix();
 				glEnable( GL_BLEND );
 				glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 				glEnable( GL_COLOR_MATERIAL );
 				glColorMaterial( GL_FRONT, GL_AMBIENT_AND_DIFFUSE );
-				if ( mLighted )
-					glEnable( GL_LIGHTING );
-				else
-					glDisable( GL_LIGHTING );
-				for ( unsigned int iFace = 0; iFace < mFaces.size(); ++iFace) {	
-					Material *tMat = mFaces[iFace]->mat;
+				glBegin( GL_TRIANGLES );
+					if ( mLighted )
+						glEnable( GL_LIGHTING );
+					else
+						glDisable( GL_LIGHTING );
+					for ( unsigned int iFace = 0; iFace < mFaces.size(); ++iFace) {	
+						Material *tMat = mFaces[iFace]->mat;
 
-					if ( tMat->texture ) {
-						glEnable( GL_TEXTURE_2D );
-						glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
-						glBindTexture( GL_TEXTURE_2D, tMat->texture->GetTextureId() );
+						if ( tMat->texture ) {
+							glEnable( GL_TEXTURE_2D );
+							glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+							glBindTexture( GL_TEXTURE_2D, tMat->texture->GetTextureId() );
+						}
+
+						GLfloat tAmbient[]  = { tMat->ambient->red, tMat->ambient->green, tMat->ambient->blue, tMat->transparency };
+						GLfloat tDiffuse[]  = { tMat->diffuse->red, tMat->diffuse->green, tMat->diffuse->blue, tMat->transparency };
+						GLfloat tSpecular[] = { tMat->specular->red, tMat->specular->green, tMat->specular->blue, tMat->transparency };
+
+						glMaterialfv( GL_FRONT, GL_AMBIENT, tAmbient );
+						glMaterialfv( GL_FRONT, GL_DIFFUSE, tDiffuse );
+						glMaterialfv( GL_FRONT, GL_SPECULAR, tSpecular );
+						glMaterialf( GL_FRONT, GL_SHININESS, tMat->shine );
+
+						glColor4f( mFaces[iFace]->v1->color->red, mFaces[iFace]->v1->color->green, mFaces[iFace]->v1->color->blue, tMat->transparency );
+						glTexCoord3f( mFaces[iFace]->v1->texCoord->x, mFaces[iFace]->v1->texCoord->y, mFaces[iFace]->v1->texCoord->z );
+						glNormal3f( mFaces[iFace]->v1->normal->x, mFaces[iFace]->v1->normal->y, mFaces[iFace]->v1->normal->z );
+						glVertex3f( mFaces[iFace]->v1->pos->x, mFaces[iFace]->v1->pos->y, mFaces[iFace]->v1->pos->z );
+
+						glColor4f( mFaces[iFace]->v2->color->red, mFaces[iFace]->v2->color->green, mFaces[iFace]->v2->color->blue, tMat->transparency );
+						glTexCoord3f( mFaces[iFace]->v2->texCoord->x, mFaces[iFace]->v2->texCoord->y, mFaces[iFace]->v2->texCoord->z );
+						glNormal3f( mFaces[iFace]->v2->normal->x, mFaces[iFace]->v2->normal->y, mFaces[iFace]->v2->normal->z );
+						glVertex3f( mFaces[iFace]->v2->pos->x, mFaces[iFace]->v2->pos->y, mFaces[iFace]->v2->pos->z );
+
+						glColor4f( mFaces[iFace]->v3->color->red, mFaces[iFace]->v3->color->green, mFaces[iFace]->v3->color->blue, tMat->transparency );
+						glTexCoord3f( mFaces[iFace]->v3->texCoord->x, mFaces[iFace]->v3->texCoord->y, mFaces[iFace]->v3->texCoord->z );
+						glNormal3f( mFaces[iFace]->v3->normal->x, mFaces[iFace]->v3->normal->y, mFaces[iFace]->v3->normal->z );
+						glVertex3f( mFaces[iFace]->v3->pos->x, mFaces[iFace]->v3->pos->y, mFaces[iFace]->v3->pos->z );
+						
+						if ( tMat->texture )
+							glDisable( GL_TEXTURE_2D );
 					}
-
-					GLfloat tAmbient[]  = { tMat->ambient->red, tMat->ambient->green, tMat->ambient->blue, tMat->transparency };
-					GLfloat tDiffuse[]  = { tMat->diffuse->red, tMat->diffuse->green, tMat->diffuse->blue, tMat->transparency };
-					GLfloat tSpecular[] = { tMat->specular->red, tMat->specular->green, tMat->specular->blue, tMat->transparency };
-
-					glMaterialfv( GL_FRONT, GL_AMBIENT, tAmbient );
-					glMaterialfv( GL_FRONT, GL_DIFFUSE, tDiffuse );
-					glMaterialfv( GL_FRONT, GL_SPECULAR, tSpecular );
-					glMaterialf( GL_FRONT, GL_SHININESS, tMat->shine );
-
-					glColor4f( mFaces[iFace]->v1->color->red, mFaces[iFace]->v1->color->green, mFaces[iFace]->v1->color->blue, tMat->transparency );
-					glTexCoord3f( mFaces[iFace]->v1->texCoord->x, mFaces[iFace]->v1->texCoord->y, mFaces[iFace]->v1->texCoord->z );
-					glNormal3f( mFaces[iFace]->v1->normal->x, mFaces[iFace]->v1->normal->y, mFaces[iFace]->v1->normal->z );
-					glVertex3f( mFaces[iFace]->v1->pos->x, mFaces[iFace]->v1->pos->y, mFaces[iFace]->v1->pos->z );
-
-					glColor4f( mFaces[iFace]->v2->color->red, mFaces[iFace]->v2->color->green, mFaces[iFace]->v2->color->blue, tMat->transparency );
-					glTexCoord3f( mFaces[iFace]->v2->texCoord->x, mFaces[iFace]->v2->texCoord->y, mFaces[iFace]->v2->texCoord->z );
-					glNormal3f( mFaces[iFace]->v2->normal->x, mFaces[iFace]->v2->normal->y, mFaces[iFace]->v2->normal->z );
-					glVertex3f( mFaces[iFace]->v2->pos->x, mFaces[iFace]->v2->pos->y, mFaces[iFace]->v2->pos->z );
-
-					glColor4f( mFaces[iFace]->v3->color->red, mFaces[iFace]->v3->color->green, mFaces[iFace]->v3->color->blue, tMat->transparency );
-					glTexCoord3f( mFaces[iFace]->v3->texCoord->x, mFaces[iFace]->v3->texCoord->y, mFaces[iFace]->v3->texCoord->z );
-					glNormal3f( mFaces[iFace]->v3->normal->x, mFaces[iFace]->v3->normal->y, mFaces[iFace]->v3->normal->z );
-					glVertex3f( mFaces[iFace]->v3->pos->x, mFaces[iFace]->v3->pos->y, mFaces[iFace]->v3->pos->z );
-
-					if ( tMat->texture )
-						glDisable( GL_TEXTURE_2D );
-				}
-			glEnd();
-			glDisable( GL_COLOR_MATERIAL );
-			glDisable( GL_BLEND );
-		glPopMatrix();
-	glEndList();
+				glEnd();
+				glDisable( GL_COLOR_MATERIAL );
+				glDisable( GL_BLEND );
+			glPopMatrix();
+		glEndList();
+	}
 }
 
 void Model::DrawModel() {
