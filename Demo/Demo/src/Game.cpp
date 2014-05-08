@@ -14,6 +14,7 @@
 #include <sstream>
 
 #include "Debug.h"
+#include "Draw.h"
 #include "Game.h"
 #include "Input.h"
 #include "TextureManager.h"
@@ -27,6 +28,7 @@ Game::Game() : Application() {
 	mCamera->SetCameraAlpha( 50.0f );
 	mCamera->SetTargetPos( 0.0f, 0.0f, 50.0f );
 	mCamera->PositionCamera();
+	mLightAngle = 0;
 }
 
 void Game::Start() {
@@ -42,20 +44,16 @@ void Game::Start() {
 void Game::InitializeGame() {
 	DebugMessage( "Initializing Game...", 3 );
 
-	Texture *tTexture1 = TEXTURE_MGR->LoadTexture( "chrome", "data/textures/chrome.tga", false );
-	Texture *tTexture2 = TEXTURE_MGR->LoadTexture( "magma", "data/textures/magma.tga", false );
-	Texture *tTexture3 = TEXTURE_MGR->LoadTexture( "brushed", "data/textures/brushed.tga", false );
+	Texture *tTexture1 = TEXTURE_MGR->LoadTexture( "stone", "data/textures/stone.tga", false );
 
 	Node* tBase = SCENE_MGR->AddNode( "base" );
-
 	Node* tTemple1 = tBase->AddChild( "temple", "data/models/temple.obj", tTexture1 );
-	Node* tTemple2 = tBase->AddChild( "temple2", tTemple1->GetModel()->GetModelId(), tTexture2 );
-	Node* tTemple3 = tBase->AddChild( "temple3", tTemple1->GetModel()->GetModelId(), tTexture3 );
-	tTemple2->SetPosition( 0.0f, 250.0f, 0.0f );
-	tTemple3->SetPosition( 0.0f, -250.0f, 0.0f );
 }
 
-void Game::GameLogic() {}
+void Game::GameLogic() {
+	double deltaTime = TIME_MGR->GetDeltaTimeSeconds();
+	mLightAngle += 1 * (float)deltaTime;
+}
 
 void Game::ProcessInput() {
 	float tDeltaTime = TIME_MGR->GetDeltaTimeSeconds();
@@ -95,7 +93,7 @@ void Game::DrawFrame() {
 	ProcessInput();
 
 	DISPLAY_MGR->SetPerspectiveProjection( 30.0f, 2.0f, 1000000.0f );
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
 	glEnable( GL_DEPTH_TEST );
@@ -103,13 +101,13 @@ void Game::DrawFrame() {
 	mCamera->PositionCamera();
 
 	glPushMatrix();
-		GLfloat tLightPosition[] = { 0.0f, 0.0f, 50.0f, 1.0f };
+		glColor4f( 1.0f, 1.0f, 1.0f, 1.0f );
+		DrawSphere3D( cos( mLightAngle ) * 150, sin( mLightAngle ) * 150, 75.0f, 10, 8, 8 );
+		GLfloat tLightPosition[] = { cos( mLightAngle ) * 150, sin( mLightAngle ) * 150, 75.0f, 1.0f };
 		glLightfv( GL_LIGHT0, GL_POSITION, tLightPosition );
 	glPopMatrix();
 	glEnable( GL_LIGHTING );
 	glEnable( GL_LIGHT0 );
-
-
 
 	glPushMatrix();
 		SCENE_MGR->DrawScene();

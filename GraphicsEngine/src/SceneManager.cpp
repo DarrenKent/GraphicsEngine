@@ -20,6 +20,7 @@ SceneManager::SceneManager() {
 	mPolygonTotal	= 0;
 	mVerticesTotal	= 0;
 	mDrawMode		= 0;
+	mShadows		= true;
 }
 
 SceneManager::SceneManager( HDC hDC ) {
@@ -32,6 +33,7 @@ SceneManager::SceneManager( HDC hDC ) {
 	mPolygonTotal	= 0;
 	mVerticesTotal	= 0;
 	mDrawMode		= 0;
+	mShadows		= true;
 }
 
 Node* SceneManager::AddNode( std::string key ) {

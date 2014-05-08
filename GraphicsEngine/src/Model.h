@@ -20,13 +20,13 @@
 // Model Class
 class Model {
 	public:
-		Model();					// Model Constructor
+		Model();											// Model Constructor
 
 		bool LoadModel( std::string file, 
 						Texture *texture );					// Load the model from a file
-		void LoadMaterials( std::string file,
-							std::map< std::string, 
-									  Material* > &matList );// Load a mtl file
+		void LoadMaterial( std::string file,
+						   std::map< std::string, 
+									 Material* > &matList );// Load a mtl file
 		void StoreModel();									// Stores Model to the Display List
 		void DrawModel();									// Draw the model to the screne
 

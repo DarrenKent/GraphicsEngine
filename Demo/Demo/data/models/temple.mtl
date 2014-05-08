@@ -1,40 +1,52 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 21.03.2014 20:09:13
+# File Created: 21.04.2014 12:23:38
 
 newmtl Material__3
-	Ns 33.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
+	Ns 33.000000
+	Ni 1.500000
+	d 1.000000
+	Tr 0.000000
+	Tf 1.000000 1.000000 1.000000 
 	illum 2
-	Ka 1.0000 0.9647 0.8275
-	Kd 1.0000 0.9647 0.8275
-	Ks 0.3780 0.3780 0.3780
-	Ke 0.0000 0.0000 0.0000
-
-newmtl Material__4
-	Ns 0.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
-	illum 2
-	Ka 0.3490 0.3490 0.3490
-	Kd 0.3490 0.3490 0.3490
-	Ks 0.0000 0.0000 0.0000
-	Ke 0.0000 0.0000 0.0000
+	Ka 1.000000 0.964706 0.827451
+	Kd 1.000000 0.964706 0.827451
+	Ks 0.378000 0.378000 0.378000
+	Ke 0.000000 0.000000 0.000000
 
 newmtl Material__2
-	Ns 18.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
+	Ns 18.000000
+	Ni 1.500000
+	d 1.000000
+	Tr 0.000000
+	Tf 1.000000 1.000000 1.000000 
 	illum 2
-	Ka 0.0000 0.6824 1.0000
-	Kd 0.0000 0.6824 1.0000
-	Ks 0.7470 0.7470 0.7470
-	Ke 0.0000 0.0000 0.0000
+	Ka 0.000000 0.682353 1.000000
+	Kd 0.000000 0.682353 1.000000
+	Ks 0.747000 0.747000 0.747000
+	Ke 0.000000 0.000000 0.000000
 	map_Ka C:\Users\Darren\Desktop\GraphicsEngine\Demo\Demo\data\textures\water.tga
 	map_Kd C:\Users\Darren\Desktop\GraphicsEngine\Demo\Demo\data\textures\water.tga
+
+newmtl wire_027177088
+	Ns 32
+	d 1
+	Tr 0
+	Tf 1 1 1
+	illum 2
+	Ka 0.105882 0.694118 0.345098
+	Kd 0.105882 0.694118 0.345098
+	Ks 0.350000 0.350000 0.350000
+
+newmtl Material__5
+	Ns 0.000000
+	Ni 1.500000
+	d 1.000000
+	Tr 0.000000
+	Tf 1.000000 1.000000 1.000000 
+	illum 2
+	Ka 0.588000 0.588000 0.588000
+	Kd 0.588000 0.588000 0.588000
+	Ks 0.135000 0.135000 0.135000
+	Ke 0.000000 0.000000 0.000000
+	map_Ka C:\Users\Darren\Desktop\GraphicsEngine\Demo\Demo\data\textures\grass.tga
+	map_Kd C:\Users\Darren\Desktop\GraphicsEngine\Demo\Demo\data\textures\grass.tga

@@ -48,7 +48,7 @@ bool Model::LoadModel( std::string filename , Texture *texture ) {
 			getline( tStringStream, tToken, ' ' );
 			if ( tToken == "mtllib" ) {
 				getline( tStringStream, tToken, ' ' );
-				LoadMaterials( tToken, tMaterials );
+				LoadMaterial( tToken, tMaterials );
 			} else if ( tToken == "usemtl" ) {
 				getline( tStringStream, tToken, ' ' );
 				tMat = new Material();
@@ -153,7 +153,7 @@ bool Model::LoadModel( std::string filename , Texture *texture ) {
 		return false;
 }
 
-void Model::LoadMaterials( std::string file, std::map< std::string, Material* > &matList ) {
+void Model::LoadMaterial( std::string file, std::map< std::string, Material* > &matList ) {
 	DebugMessage( "Loading Material File: " + file, 3 );
 	
 	std::string		tLine;
@@ -224,7 +224,7 @@ void Model::LoadMaterials( std::string file, std::map< std::string, Material* > 
 					} else if ( tToken == "map_Ka" ) {
 						getline( tStringStream, tToken, ' ' );
 						std::string tTexFile = tToken.substr( tToken.find_last_of( "/\\" ) + 1 );
-						tMaterial->texture = mTextureMgr->LoadTexture( tTexFile, std::string("data/textures/" + tTexFile), false );
+						tMaterial->texture = mTextureMgr->LoadTexture( tTexFile, std::string("data/textures/" + tTexFile), true );
 					}
 					
 				}

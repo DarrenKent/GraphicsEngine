@@ -90,7 +90,7 @@ bool Display::CreateNewWindow() {
 		sizeof( PIXELFORMATDESCRIPTOR ), 1,
 		PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
 		PFD_TYPE_RGBA, mScreenDepth,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 1, 0,
 		PFD_MAIN_PLANE, 0, 0, 0, 0
 	};
 
@@ -147,8 +147,7 @@ void Display::InitializeOpenGL() {
 	DebugMessage( "Initializing OpenGl...", 3 );
 	glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
 	glClearDepth( 1.0f );
-	//glDepthFunc( GL_LEQUAL );
-	//glHint( GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST );
+	glClearStencil( 0 );
 }
 
 void Display::ResizeGLScene() {

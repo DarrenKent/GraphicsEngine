@@ -28,6 +28,7 @@ class Game : public Application {
 	protected:
 	private:
 		OrbitalCamera	*mCamera;							// The Camera
+		float			mLightAngle;						// Light0 on rotation
 };
 
 #endif // _GAME_

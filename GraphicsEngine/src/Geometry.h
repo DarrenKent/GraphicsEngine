@@ -11,6 +11,7 @@
 #include "Texture.h"
 
 struct Vector3;
+struct Vecotr4;
 struct Vertex;
 struct Face;
 struct Material;
@@ -25,6 +26,20 @@ struct Vector3 {
 		x = 0.0f;
 		y = 0.0f;
 		z = 0.0f;
+	}
+};
+
+struct Vector4 {
+	float x;
+	float y;
+	float z;
+	float w;
+
+	Vector4() {
+		x = 0.0f;
+		y = 0.0f;
+		z = 0.0f;
+		w = 0.0f;
 	}
 };
 

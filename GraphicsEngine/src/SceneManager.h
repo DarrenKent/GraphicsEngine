@@ -57,6 +57,7 @@ class SceneManager {
 		int									mPolygonTotal;	// Total Polygons in the Scene
 		int									mVerticesTotal;	// Total Vertices in the Scene
 		int									mDrawMode;		// Draw Mode for Polygons 0 = Fill, 1 = Points, 2 = Lines
+		bool								mShadows;		// Shadows Disabled or Enabled
 };
 
 #endif // _SCENE_MANAGER_
