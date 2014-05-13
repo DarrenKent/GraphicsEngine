@@ -12,6 +12,7 @@
 
 #include "Display.h"
 #include "SceneManager.h"
+#include "ShaderManager.h"
 #include "TextureManager.h"
 #include "TimeManager.h"
 
@@ -34,6 +35,7 @@ class Application {
 		SceneManager	*SCENE_MGR;							// Primary Scene Manager
 		TimeManager		*TIME_MGR;							// Primary Time Manager
 		TextureManager	*TEXTURE_MGR;						// Primary Texture Manager
+		ShaderManager	*SHADER_MGR;						// Primary Shader Manager
 	private:
 };
 

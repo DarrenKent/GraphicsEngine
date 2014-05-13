@@ -13,6 +13,7 @@
 
 #include "Font.h"
 #include "Node.h"
+#include "ShaderManager.h"
 
 // Scene Manager Class
 class SceneManager {

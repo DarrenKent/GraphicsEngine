@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+#include <gl/glew.h>
 
 #include "Application.h"
 #include "Debug.h"
@@ -18,6 +19,7 @@ Application::Application() {
 
 	mActive		= true;
 	DISPLAY_MGR = new Display();
+	SHADER_MGR	= new ShaderManager();
 	TIME_MGR	= new TimeManager();
 	TEXTURE_MGR = new TextureManager();
 	TIME_MGR->StartTime();
@@ -28,6 +30,7 @@ void Application::Initialize( LPCWSTR title, int width, int height, int fullscre
 	DISPLAY_MGR->SetupWindow( title, width, height, fullscreen );
 	DISPLAY_MGR->CreateNewWindow();
 	SCENE_MGR = new SceneManager( DISPLAY_MGR->GetHDC() );
+	glewInit();
 }
 
 void Application::StartFrame() {
@@ -43,6 +46,8 @@ void Application::StartFrame() {
 }
 
 void Application::EndFrame() {
+	SHADER_MGR->ClearProgram();
+
 	glDepthMask( GL_FALSE );
 	glDisable( GL_LIGHTING );
 	DISPLAY_MGR->SetOrthographicProjection();

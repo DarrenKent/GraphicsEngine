@@ -6,10 +6,10 @@
 */
 
 #include <Windows.h>
-#include <fstream>
 #include <GL/glew.h>
 #include <gl/GL.h>
 #include <gl/GLU.h>
+#include <fstream>
 #include <iostream>
 #include <sstream>
 
@@ -18,6 +18,8 @@
 #include "Game.h"
 #include "Input.h"
 #include "TextureManager.h"
+
+GLuint VBO, ShadowMap, FBO;
 
 Game::Game() : Application() {
 	DebugMessage( "Creating Game Instance...", 3 );
@@ -29,6 +31,8 @@ Game::Game() : Application() {
 	mCamera->SetTargetPos( 0.0f, 0.0f, 50.0f );
 	mCamera->PositionCamera();
 	mLightAngle = 0;
+
+	glEnable( GL_CULL_FACE );
 }
 
 void Game::Start() {
@@ -48,11 +52,32 @@ void Game::InitializeGame() {
 
 	Node* tBase = SCENE_MGR->AddNode( "base" );
 	Node* tTemple1 = tBase->AddChild( "temple", "data/models/temple.obj", tTexture1 );
+
+	SHADER_MGR->CreateProgram( "testProgram" );
+	SHADER_MGR->CreateShader( "testVertexShader", "shaders/test.vert", VERTEX_SHADER );
+	SHADER_MGR->CreateShader( "testFragmentShader", "shaders/test.frag", FRAGMENT_SHADER );
+	SHADER_MGR->AttachShader( "testProgram", "testVertexShader" );
+	SHADER_MGR->AttachShader( "testProgram", "testFragmentShader" );
+
+	SHADER_MGR->CreateProgram( "shadowProgram" );
+	SHADER_MGR->CreateShader( "shadowVertexShader", "shaders/shadow.vert", VERTEX_SHADER );
+	SHADER_MGR->CreateShader( "shadowFragmentShader", "shaders/shadow.frag", FRAGMENT_SHADER );
+	SHADER_MGR->AttachShader( "shadowProgram", "shadowVertexShader" );
+	SHADER_MGR->AttachShader( "shadowProgram", "shadowFragmentShader" );
+
+	GLfloat tAmbient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	GLfloat tSpecular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	GLfloat tDiffuse[] = { 0.7f, 0.7f, 0.6f, 1.0f };
+	glLightfv( GL_LIGHT0, GL_DIFFUSE, tDiffuse );
+	glLightfv( GL_LIGHT0, GL_SPECULAR, tSpecular );
+	glLightfv( GL_LIGHT0, GL_AMBIENT, tAmbient );
 }
 
 void Game::GameLogic() {
 	double deltaTime = TIME_MGR->GetDeltaTimeSeconds();
 	mLightAngle += 1 * (float)deltaTime;
+
+	ProcessInput();
 }
 
 void Game::ProcessInput() {
@@ -90,14 +115,14 @@ void Game::ProcessInput() {
 }
 
 void Game::DrawFrame() {
-	ProcessInput();
+	SHADER_MGR->UseProgram( "testProgram" );
 
 	DISPLAY_MGR->SetPerspectiveProjection( 30.0f, 2.0f, 1000000.0f );
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
 	glEnable( GL_DEPTH_TEST );
-
+	
 	mCamera->PositionCamera();
 
 	glPushMatrix();
@@ -109,6 +134,7 @@ void Game::DrawFrame() {
 	glEnable( GL_LIGHTING );
 	glEnable( GL_LIGHT0 );
 
+	glCullFace( GL_BACK );
 	glPushMatrix();
 		SCENE_MGR->DrawScene();
 	glPopMatrix();

@@ -64,9 +64,6 @@ GLuint Texture::LoadTgaImage( std::string filename, bool wrap ) {
 	int tWidth		= abs( ( tHeader.widthEnd << 8 ) | tHeader.width );
 	int tHeight		= abs( ( tHeader.heightEnd << 8 ) | tHeader.height );
 	int tPixelDepth	= abs( tHeader.pixelDepth );
-	DebugMessage( "Image Width: " + std::to_string( (long double)tWidth ), 4 );
-	DebugMessage( "Image Height: " + std::to_string( (long double)tHeight ), 4 );
-	DebugMessage( "Image Depth: " + std::to_string( (long double)tPixelDepth ), 4 );
 
 	int tTextureType;
 	if ( tPixelDepth == 24 ) {
@@ -119,7 +116,11 @@ GLuint Texture::LoadTgaImage( std::string filename, bool wrap ) {
 	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
 
 	mWidth	= (float)tWidth;
-	mHeight = (float)mHeight;
+	mHeight = (float)tHeight;
+	DebugMessage( "Image Width: " + std::to_string( (long double)tWidth ), 4 );
+	DebugMessage( "Image Height: " + std::to_string( (long double)tHeight ), 4 );
+	DebugMessage( "Image Depth: " + std::to_string( (long double)tPixelDepth ), 4 );
+	DebugMessage( "Texture Id: " + std::to_string( (long double)mTextureId[0] ), 4 );
 	return mTextureId[0];
 }
 

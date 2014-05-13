@@ -32,7 +32,7 @@ class Texture {
 		float GetImageWidth();								// Returns the Image Width
 		float GetImageHeight();								// Returns the Image Height
 		bool GetTextureWrap();								// Returns the texture wrap
-		GLuint GetTextureId();									// Returns the Texture Id
+		GLuint GetTextureId();								// Returns the Texture Id
 	protected:
 	private:
 		std::string	mLabel;									// Texture Label

@@ -13,7 +13,7 @@
 bool	KEYS[256];
 bool	LIFTED[256];
 int		MOUSE_X, MOUSE_Y;
-bool	MOUSE_MOVE;
+bool	MOUSE_MOVE, MOUSE_LEFT, MOUSE_RIGHT;
 
 bool GetKeyPressed( char key ){
 	key = toupper( key );
@@ -47,6 +47,18 @@ LRESULT CALLBACK MainWProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 			KEYS[wParam] = false;
 			LIFTED[wParam] = false;
 			return 0;
+		case WM_LBUTTONDOWN:
+			MOUSE_LEFT = true;
+			return 0;
+		case WM_LBUTTONUP:
+			MOUSE_LEFT = false;
+			return 0;
+		case WM_RBUTTONDOWN:
+			MOUSE_RIGHT = true;
+			return 0;
+		case WM_RBUTTONUP:
+			MOUSE_RIGHT = false;
+			return 0;
 	}
 
 	POINT tPoint;
@@ -73,6 +85,14 @@ int GetMouseY() {
 
 bool GetMouseMove() {
 	return MOUSE_MOVE;
+}
+
+bool GetLeftClick() {
+	return MOUSE_LEFT;
+}
+
+bool GetRightClick() {
+	return MOUSE_RIGHT;
 }
 
 void SetMouseMove( bool moved ){

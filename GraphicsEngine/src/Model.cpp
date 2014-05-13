@@ -231,7 +231,6 @@ void Model::LoadMaterial( std::string file, std::map< std::string, Material* > &
 				matList[tKey] = tMaterial;
 			}
 		}
-
 	} else {
 		std::string msg = "Cannot open file: data/models/" + file;
 		FatalError( msg );
@@ -241,6 +240,7 @@ void Model::LoadMaterial( std::string file, std::map< std::string, Material* > &
 void Model::StoreModel() {
 	DebugMessage( "Storing Model to Display List...", 3 );
 	mModelId = glGenLists( 1 );
+	bool tTextureLoaded = false;
 	for ( GLuint iMode = 0; iMode < 3; ++iMode ) {
 		glNewList( mModelId + iMode, GL_COMPILE );
 			glPushMatrix();
@@ -248,6 +248,7 @@ void Model::StoreModel() {
 				glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 				glEnable( GL_COLOR_MATERIAL );
 				glColorMaterial( GL_FRONT, GL_AMBIENT_AND_DIFFUSE );
+
 				glBegin( GL_TRIANGLES );
 					if ( mLighted )
 						glEnable( GL_LIGHTING );
@@ -260,6 +261,12 @@ void Model::StoreModel() {
 							glEnable( GL_TEXTURE_2D );
 							glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
 							glBindTexture( GL_TEXTURE_2D, tMat->texture->GetTextureId() );
+							tTextureLoaded = false;
+						} else if ( mTexture && !tTextureLoaded ) {
+							tTextureLoaded = true;
+							glEnable( GL_TEXTURE_2D );
+							glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+							glBindTexture( GL_TEXTURE_2D, mTexture->GetTextureId() );
 						}
 
 						GLfloat tAmbient[]  = { tMat->ambient->red, tMat->ambient->green, tMat->ambient->blue, tMat->transparency };
