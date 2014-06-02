@@ -31,3 +31,7 @@ Texture* TextureManager::LoadTexture( std::string key, std::string filename, boo
 GLuint TextureManager::GetTextureId( std::string key ) {
 	return mTextureMap[key]->GetTextureId();
 }
+
+Texture* TextureManager::GetTexture( std::string key ) {
+	return mTextureMap[key];
+}

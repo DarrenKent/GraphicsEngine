@@ -48,10 +48,15 @@ void Game::Start() {
 void Game::InitializeGame() {
 	DebugMessage( "Initializing Game...", 3 );
 
-	Texture *tTexture1 = TEXTURE_MGR->LoadTexture( "stone", "data/textures/stone.tga", false );
+	//Texture *tTexture1 = TEXTURE_MGR->LoadTexture( "stone", "data/textures/stone.tga", false );
+	Texture *tShipTexture = TEXTURE_MGR->LoadTexture( "shipTex", "data/textures/ship.tga", false );
 
 	Node* tBase = SCENE_MGR->AddNode( "base" );
-	Node* tTemple1 = tBase->AddChild( "temple", "data/models/temple.obj", tTexture1 );
+	//Node* tTemple1 = tBase->AddChild( "temple", "data/models/temple.obj", tTexture1 );
+
+	Node* tShip = tBase->AddChild( "ship", "data/models/ship.obj", tShipTexture );
+	tShip->SetScale( 0.05 );
+	tShip->SetPosition( 0, 0, 30 );
 
 	SHADER_MGR->CreateProgram( "testProgram" );
 	SHADER_MGR->CreateShader( "testVertexShader", "shaders/test.vert", VERTEX_SHADER );
@@ -115,10 +120,9 @@ void Game::ProcessInput() {
 }
 
 void Game::DrawFrame() {
-	SHADER_MGR->UseProgram( "testProgram" );
 
 	DISPLAY_MGR->SetPerspectiveProjection( 30.0f, 2.0f, 1000000.0f );
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
 	glEnable( GL_DEPTH_TEST );
@@ -126,6 +130,7 @@ void Game::DrawFrame() {
 	mCamera->PositionCamera();
 
 	glPushMatrix();
+		glDisable( GL_LIGHTING );
 		glColor4f( 1.0f, 1.0f, 1.0f, 1.0f );
 		DrawSphere3D( cos( mLightAngle ) * 150, sin( mLightAngle ) * 150, 75.0f, 10, 8, 8 );
 		GLfloat tLightPosition[] = { cos( mLightAngle ) * 150, sin( mLightAngle ) * 150, 75.0f, 1.0f };
@@ -134,7 +139,7 @@ void Game::DrawFrame() {
 	glEnable( GL_LIGHTING );
 	glEnable( GL_LIGHT0 );
 
-	glCullFace( GL_BACK );
+	SHADER_MGR->UseProgram( "testProgram" );
 	glPushMatrix();
 		SCENE_MGR->DrawScene();
 	glPopMatrix();

@@ -58,32 +58,32 @@ struct Color4 {
 };
 
 struct Vertex {
-	Vector3 *pos;
-	Vector3 *normal;
-	Vector3 *texCoord;
-	Color4	*color;
+	Vector3 pos;
+	Vector3 normal;
+	Vector3 texCoord;
+	Color4	color;
 
 	Vertex() {
-		pos		 = new Vector3();
-		normal	 = new Vector3();
-		texCoord = new Vector3();
-		color	 = new Color4();
+		pos		 = Vector3();
+		normal	 = Vector3();
+		texCoord = Vector3();
+		color	 = Color4();
 	}
 };
 
 struct Material {
-	Color4 *ambient;
-	Color4 *diffuse;
-	Color4 *specular;
+	Color4 ambient;
+	Color4 diffuse;
+	Color4 specular;
 	float shine;
 	float transparency;
 	bool lighted;
 	Texture *texture;
 
 	Material() {
-		ambient		 = new Color4();
-		diffuse		 = new Color4();
-		specular	 = new Color4();
+		ambient		 = Color4();
+		diffuse		 = Color4();
+		specular	 = Color4();
 		shine		 = 32.0f;
 		transparency = 1.0f;
 		lighted		 = true;
@@ -92,16 +92,16 @@ struct Material {
 };
 
 struct Face {
-	Vertex *v1;
-	Vertex *v2;
-	Vertex *v3;
-	Material *mat;
+	Vertex v1;
+	Vertex v2;
+	Vertex v3;
+	Material mat;
 
 	Face() {
-		v1  = new Vertex();
-		v2  = new Vertex();
-		v3  = new Vertex();
-		mat = new Material();
+		v1  = Vertex();
+		v2  = Vertex();
+		v3  = Vertex();
+		mat = Material();
 	}
 };
 

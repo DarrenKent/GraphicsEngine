@@ -157,7 +157,7 @@ void Display::ResizeGLScene() {
 void Display::SetOrthographicProjection() {
 	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity();
-	glOrtho( 0.0, mScreenWidth, 0.0, mScreenHeight, -1.0, 1.0 );
+	glOrtho( 0.0, mScreenWidth, 0.0, mScreenHeight, -1000.0, 1000.0 );
 	glMatrixMode( GL_MODELVIEW );
 }
 

@@ -21,6 +21,6 @@ void DrawRectangle2D( GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2 );
 void DrawRectangleOutline2D( GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2, GLfloat thickness );
 void DrawSphere3D( GLfloat x, GLfloat y, GLfloat z, GLfloat radius, int slices, int rows );
 void DrawTriangle2D( GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2, GLfloat x3, GLfloat y3 );
-void DrawText( const char* text , GLuint fontId, GLfloat x, GLfloat y );
+void DrawText2D( const char* text , GLuint fontId, GLfloat x, GLfloat y );
 
 #endif // _DRAW_

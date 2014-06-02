@@ -29,6 +29,7 @@ class SceneManager {
 						GLuint modelId,
 						Texture *texture );					// Adds an instanced model to the Scene
 		void ClearScene();									// Removes all Nodes from the Scene
+		void RemoveNode( std::string key );					// Removes Node from the Scene
 
 		void DrawScene();									// Draws one frame of the Scene
 		void DrawSceneRange(	float xPos,

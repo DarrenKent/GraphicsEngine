@@ -54,10 +54,12 @@ class Node{
 		float GetYaw();										// Gets the yaw rotation of the Node
 		float GetPitch();									// Gets the pitch rotation of the Node
 		float GetRoll();									// Gets the roll rotation of the Node
+		float GetScale();									// Returns the Scale of the Node
 		int GetDrawPriority();								// Returns the Draw Priority
 		void SetDrawPriority( int priority );				// Sets the Draw Priority
 		bool GetDepthMask();								// Returns the Depth Mask
 		void SetDepthMask( bool mask );						// Sets the Depth Mask
+		std::string GetId();								// Returns the Node's Id
 
 		Node* AddChild( std::string key );					// Adds a blank Child
 		Node* AddChild( std::string key, 

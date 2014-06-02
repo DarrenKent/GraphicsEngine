@@ -14,16 +14,31 @@
 #include "Application.h"
 #include "Display.h"
 
+class StateManager;
+
 // State Class
 class State {
 	public:
-		State(){};
-		~State(){};
+		State();
+		~State();
 
-		virtual void DrawFrame() = 0;		// Draws One frame
-		virtual void GameLogic() = 0;		// Executes One frame of logic
-		virtual void ProcessInput() = 0;	// Process user input
+		virtual void DrawFrame()		= 0;				// Draws One frame
+		virtual void GameLogic()		= 0;				// Executes One frame of logic
+		virtual void ProcessInput()		= 0;				// Process user input
+		virtual void InitializeState()	= 0;				// Initialize the State
+		StateManager* GetStateManager();					// Returns the State Manager
+		Display* GetDisplayManager();						// Returns the Display Manager
+		SceneManager* GetSceneManager();					// Returns the Scene Manager
+		ShaderManager* GetShaderManager();					// Returns the Shader Manager
+		TextureManager* GetTextureManager();				// Returns the Texture Manager
+		TimeManager* GetTimeManager();						// Returns the Time Manager
 	protected:
+		StateManager			*mStateManager;				// Pointer to Primary State Manager
+		Display					*mDisplayManager;			// Pointer to Primary Display Manager
+		SceneManager			*mSceneManager;				// State Scene Manager
+		ShaderManager			*mShaderManager;			// State Shader Manager
+		TextureManager			*mTextureManager;			// State Texture Manager
+		TimeManager				*mTimeManager;				// State Time Manager
 	private:
 };
 
@@ -39,6 +54,7 @@ class StateManager : public Application {
 		~StateManager();									// Deconstructor
 
 		void SetState( std::string stateId );				// Set Current State by Id
+		void ChangeState( std::string stateId );			// Change the Current State
 		void AddState(	std::string stateId, 
 						State* newState );					// Add a state to the state list
 		void DeleteState( std::string stateId );			// Delete a state from the state list

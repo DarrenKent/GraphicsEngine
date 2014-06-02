@@ -15,6 +15,7 @@
 #include <vector>
 
 #include "Geometry.h"
+#include "ShaderManager.h"
 #include "TextureManager.h"
 
 // Model Class
@@ -57,16 +58,18 @@ class Model {
 
 		void SetLighted( bool lighted );					// Sets the Object Lighting
 		bool GetLighted();									// Get the Object Lighting
-		 
+		
+		void SetShaderProgram( ShaderProgram *shaderProg ); // Sets the model's shader program
 	protected:
 	private:
 		TextureManager		*mTextureMgr;
 		GLuint				mModelId;						// Display List Id
-		std::vector<Face*>	mFaces;							// List of all the faces of the model
+		std::vector<Face>	mFaces;							// List of all the faces of the model
 		int					mPolygonCount;					// Number of faces on the model
 		int					mVertexCount;					// Number of vertices on the model
 		Texture				*mTexture;						// Filename of texture
 		bool				mLighted;						// Whether the model is lit or not
+		ShaderProgram		*mShaderProgram;				// Shader Program
 };
 
 #endif // _MODEL_

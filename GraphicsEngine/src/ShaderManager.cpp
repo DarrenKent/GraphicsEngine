@@ -114,3 +114,7 @@ void ShaderManager::UseProgram( std::string programId ) {
 void ShaderManager::ClearProgram() {
 	glUseProgram( 0 );
 }
+
+ShaderProgram* ShaderManager::GetProgram( std::string program ) {
+	return mPrograms[program];
+}

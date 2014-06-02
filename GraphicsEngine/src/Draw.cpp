@@ -129,35 +129,34 @@ void DrawSphere3D( GLfloat x, GLfloat y, GLfloat z, GLfloat radius, int slices, 
 
 void DrawTriangle2D( GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2, GLfloat x3, GLfloat y3 ) {
 	glBegin( GL_TRIANGLES );
-	glVertex2f( x1, y1 );
-	glVertex2f( x2, y2 );
-	glVertex2f( x3, y3 );
+		glVertex2f( x1, y1 );
+		glVertex2f( x2, y2 );
+		glVertex2f( x3, y3 );
 	glEnd();
 	
 }
 
-void DrawText( const char* text , GLuint fontId, GLfloat x, GLfloat y ) {
+void DrawText2D( const char* text , GLuint fontId, GLfloat x, GLfloat y ) {
 	if( fontId >= 0 ) {
 		glPushMatrix();
-		glTranslatef( 0.0f, 0.0f, 1.0f );
-		glRasterPos2f( x, y );
+			glTranslatef( 0.0f, 0.0f, 1.0f );
+			glRasterPos2f( x, y );
 
-		char tString[256];		
-		va_list tArgs;
-		va_start( tArgs, text );
-		vsprintf_s( tString, text, tArgs );
-		va_end( tArgs );
+			char tString[256];		
+			va_list tArgs;
+			va_start( tArgs, text );
+			vsprintf_s( tString, text, tArgs );
+			va_end( tArgs );
 
-		glPushAttrib( GL_LIST_BIT );
-		glListBase( fontId - 32 );
-		glCallLists( strlen( tString ), GL_UNSIGNED_BYTE, tString );
-		glPopAttrib();
+			glPushAttrib( GL_LIST_BIT );
+				glListBase( fontId - 32 );
+				glCallLists( strlen( tString ), GL_UNSIGNED_BYTE, tString );
+			glPopAttrib();
 		glPopMatrix();
 	}
 	else{
 		std::string tText = text;
 		std::string msg = "Cannot Draw Text: '" + tText + "'. Font is not loaded.";
 		FatalError( msg );
-	}
-	
+	}	
 }

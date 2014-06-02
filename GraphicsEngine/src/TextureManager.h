@@ -26,6 +26,7 @@ class TextureManager {
 								std::string filename,			
 								bool wrap );				// Load a Texture
 		GLuint GetTextureId( std::string key );				// Returns a Texture Display Id given a key
+		Texture* GetTexture( std::string key );				// Returns a Texture Object
 	protected:
 	private:
 		std::map<std::string, Texture*> mTextureMap;		// Map of all textures keyed by texture name

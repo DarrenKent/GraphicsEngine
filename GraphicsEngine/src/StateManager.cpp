@@ -10,6 +10,41 @@
 #include "Input.h"
 #include "StateManager.h"
 
+State::State() {
+	mStateManager	= NULL;
+	mDisplayManager = NULL;
+	mSceneManager	= NULL;
+	mShaderManager	= NULL;
+	mTextureManager = NULL;
+	mTimeManager	= NULL;
+}
+
+State::~State() {}
+
+StateManager* State::GetStateManager() {
+	return mStateManager;
+}
+
+Display* State::GetDisplayManager() {
+	return mDisplayManager;
+}
+
+SceneManager* State::GetSceneManager() {
+	return mSceneManager;
+}
+
+ShaderManager* State::GetShaderManager() {
+	return mShaderManager;
+}
+
+TextureManager* State::GetTextureManager() {
+	return mTextureManager;
+}
+
+TimeManager* State::GetTimeManager() {
+	return mTimeManager;
+}
+
 StateManager::StateManager() : Application() {
 	mCurrentState		= NULL;
 	mCurrentStatus		= STATE_PAUSED;
@@ -24,10 +59,20 @@ StateManager::~StateManager() {}
 void StateManager::SetState( std::string stateId ) {
 	if ( mStates[stateId] ) {
 		mCurrentState = mStates[stateId];
+		mCurrentState->InitializeState();
 		mCurrentStatus = STATE_PLAYING;
 	} else {
 		FatalError( "State " + stateId + " Does Not Exists " );
 	}
+}
+
+void StateManager::ChangeState( std::string stateId ) {
+	if ( mStates[stateId] ) {
+		mCurrentState = mStates[stateId];
+		mCurrentStatus = STATE_PLAYING;
+	} else {
+		FatalError( "State " + stateId + " Does Not Exists " );
+	}	
 }
 
 void StateManager::AddState( std::string stateId, State* newState ) {
@@ -41,17 +86,6 @@ void StateManager::DeleteState( std::string stateId ) {
 void StateManager::DrawFrame() {
 	if ( mCurrentState )
 		mCurrentState->DrawFrame();
-
-	glDepthMask( GL_FALSE );
-	DISPLAY_MGR->SetOrthographicProjection();
-	glLoadIdentity();
-	if ( mDisplayFPS ){
-		glColor3f( 1.0f, 1.0f, 1.0f );
-		std::string tFPS = "FPS: " + std::to_string( (long double)TIME_MGR->GetFramesPerSecond() );
-		DrawText( tFPS.c_str(), SCENE_MGR->GetCurrentFontId(), 10.0f, DISPLAY_MGR->GetScreenHeight() - 20.0f );
-	}
-	
-	glDepthMask( GL_TRUE );
 }
 
 void StateManager::StateLogic() {

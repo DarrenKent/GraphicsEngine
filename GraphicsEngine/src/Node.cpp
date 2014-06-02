@@ -68,20 +68,20 @@ Model* Node::GetModel(){
 
 void Node::DrawNode() {
 	glPushMatrix();
-	glTranslatef( mXPos, mYPos, mZPos );
-	glRotatef( mYaw, 0, 0, 1 );
-	glRotatef( mPitch, 0, 1, 0 );
-	glRotatef( mRoll, 1, 0, 0 );
-	glScalef( mScale, mScale, mScale );
-	glEnable( GL_NORMALIZE );
-	if ( mModel && mVisible )
-		mModel->DrawModel();
-	glDisable( GL_NORMALIZE );
+		glTranslatef( mXPos, mYPos, mZPos );
+		glRotatef( mYaw, 0, 0, 1 );
+		glRotatef( mPitch, 0, 1, 0 );
+		glRotatef( mRoll, 1, 0, 0 );
+		glScalef( mScale, mScale, mScale );
+		glEnable( GL_NORMALIZE );
+		if ( mModel && mVisible )
+			mModel->DrawModel();
+		glDisable( GL_NORMALIZE );
 
-	std::map<std::string, Node*>::iterator tChild;
-	for ( tChild = mChildren.begin(); tChild != mChildren.end(); ++tChild) {
-		tChild->second->DrawNode();
-	}
+		std::map<std::string, Node*>::iterator tChild;
+		for ( tChild = mChildren.begin(); tChild != mChildren.end(); ++tChild) {
+			tChild->second->DrawNode();
+		}
 	glPopMatrix();
 }
 
@@ -153,6 +153,10 @@ float Node::GetRoll() {
 	return mRoll;
 }
 
+float Node::GetScale() {
+	return mScale;
+}
+
 bool Node::GetDepthMask() {
 	return mDepthMask;
 }
@@ -167,6 +171,10 @@ void Node::SetDrawPriority( int priority ) {
 
 int Node::GetDrawPriority() {
 	return mDrawPriority;
+}
+
+std::string Node::GetId() {
+	return mId;
 }
 
 Node* Node::AddChild( std::string key ) {

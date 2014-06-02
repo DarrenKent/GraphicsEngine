@@ -75,16 +75,16 @@ void DrawDebugGUI( int fontId, float fps, int polygonCount, int verticeCount, fl
 
 		glColor3f( 1.0f, 1.0f, 1.0f );
 		std::string tFPS = "FPS: " + std::to_string( (long double)fps );
-		DrawText( tFPS.c_str(), fontId, 10.0f, 85.0f );
+		DrawText2D( tFPS.c_str(), fontId, 10.0f, 85.0f );
 		std::string tPoly = "Polygon Count: " + std::to_string( (long double)polygonCount );
-		DrawText( tPoly.c_str(), fontId, 10.0f, 70.0f );
+		DrawText2D( tPoly.c_str(), fontId, 10.0f, 70.0f );
 		std::string tVert = "Vertice Count: " + std::to_string( (long double)verticeCount );
-		DrawText( tVert.c_str(), fontId, 10.0f, 55.0f );
+		DrawText2D( tVert.c_str(), fontId, 10.0f, 55.0f );
 		std::string tMouseX= "MouseX: " + std::to_string( (long double)mouseX );
-		DrawText( tMouseX.c_str(), fontId, 10.0f, 40.0f );
+		DrawText2D( tMouseX.c_str(), fontId, 10.0f, 40.0f );
 		std::string tMouseY = "MouseY: " + std::to_string( (long double)mouseY );
-		DrawText( tMouseY.c_str(), fontId, 10.0f, 25.0f );
+		DrawText2D( tMouseY.c_str(), fontId, 10.0f, 25.0f );
 		std::string tDMode = "Debug Mode: " + std::to_string( (long double)DEBUG_MODE );
-		DrawText( tDMode.c_str(), fontId, 10.0f, 10.0f );
+		DrawText2D( tDMode.c_str(), fontId, 10.0f, 10.0f );
 	}
 }

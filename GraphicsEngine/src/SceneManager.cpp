@@ -75,7 +75,12 @@ void SceneManager::ClearScene() {
 	mNodes.clear();
 }
 
+void SceneManager::RemoveNode( std::string key ) {
+	mNodes.erase( key );
+}
+
 void SceneManager::DrawScene(){
+	glMatrixMode( GL_MODELVIEW_MATRIX );
 	if ( mDrawMode == 0 )
 		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 	else if ( mDrawMode == 1 )
@@ -111,6 +116,7 @@ void SceneManager::DrawScene(){
 }
 
 void SceneManager::DrawSceneRange( float xPos, float yPos, float zPos, float range ){
+	glMatrixMode( GL_MODELVIEW_MATRIX );
 	if ( mDrawMode == 0 )
 		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 	else if ( mDrawMode == 1 )

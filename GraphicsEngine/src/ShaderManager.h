@@ -52,6 +52,7 @@ class ShaderManager {
 		void AttachShader( std::string programId, std::string shaderId );
 		void UseProgram( std::string programId );
 		void ClearProgram();
+		ShaderProgram* GetProgram( std::string program );
 	protected:
 	private:
 		std::map<std::string, Shader*>			mShaders;
